@@ -4,6 +4,7 @@ import InputField from "../ui/InputField";
 import loginSchema from "../schemas/login.schema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { loginUserRequest } from "../api/user.request";
 
 function LoginForm() {
   const {
@@ -14,8 +15,13 @@ function LoginForm() {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+      await loginUserRequest(data);
+    } catch (err) {
+      console.error("Error al iniciar sesión", err);
+    }
   };
 
   return (

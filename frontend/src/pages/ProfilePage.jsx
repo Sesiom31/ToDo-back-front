@@ -3,6 +3,7 @@ import {
   faArrowRightFromBracket,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+import { logoutUserRequest } from "../api/user.request";
 
 const categorias = ["Hoy", "Planeado", "Importante", "Completado", "Todos"];
 const tareas = [
@@ -36,6 +37,16 @@ const tareas = [
 ];
 
 function ProfilePage() {
+
+  const handleLogout = async () => {
+    try {
+      await logoutUserRequest();
+      
+    } catch (err) {
+      console.error("Error en el cierre de sesión", err)
+      
+    }
+  };
   return (
     <section className="w-full h-screen">
       <nav className=" w-full h-20 bg-gray-800  flex justify-between items-center p-2 px-8 gap-4">
@@ -53,6 +64,7 @@ function ProfilePage() {
         <FontAwesomeIcon
           icon={faArrowRightFromBracket}
           className=" text-white text-xl"
+          onClick={handleLogout}
         />
       </nav>
       <main className=" grid grid-cols-12 w-full h-[calc(100%-5rem)]">
@@ -102,7 +114,9 @@ function ProfilePage() {
             </p>
           </div>
 
-          <button className=" bg-green-500 rounded-md p-2 w-full text-gray-800 text-lg my-4">Agregar paso</button>
+          <button className=" bg-green-500 rounded-md p-2 w-full text-gray-800 text-lg my-4">
+            Agregar paso
+          </button>
           <ul className="flex flex-col gap-6">
             {tareas[0].pasos.map((p, i) => (
               <li

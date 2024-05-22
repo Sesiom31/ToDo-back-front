@@ -21,7 +21,7 @@ export const userLoginSchema = z.object({
     .string()
     .min(4, { message: "Username debe tener al menos 4 caracteres" }),
   email: z.string().email({ message: " Ingresa un email valido" }),
-  passwod: z
+  password: z
     .string()
     .min(6, { message: "Password debe tener al menos 6 caracteres" }),
 });

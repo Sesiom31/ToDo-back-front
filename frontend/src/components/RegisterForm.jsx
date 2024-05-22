@@ -16,8 +16,13 @@ function RegisterForm() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-    await registerUserRequest(data);
+    try {
+      console.log(data);
+      await registerUserRequest(data);
+      
+    } catch (err) {
+      console.error('Error en el registro', err)
+    }
   };
 
   return (
