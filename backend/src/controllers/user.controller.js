@@ -6,7 +6,7 @@ const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: false,
   samesite: "strict",
-  maxAge: "3",
+  maxAge: "3600000",
 };
 
 export const registerUser = async (req, res) => {

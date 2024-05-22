@@ -52,7 +52,7 @@ function LoginForm() {
       />
       <button
         type="submit"
-        className=" w-[40%] bg-green-600 mt-8 px-2 py-1 text-white text-[1.1rem] rounded-md"
+        className=" w-[40%] bg-green-600 mt-8 px-2 py-1 text-white text-[1.1rem] rounded-md  focus:bg-green-700 border-none outline-none"
       >
         Iniciar sesión
       </button>

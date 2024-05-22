@@ -25,10 +25,9 @@ function InputField({
             type={type}
             name={name}
             placeholder={placeholder}
-            autoComplete={"off"}
             {...register(name)}
-            className={`rounded-md text-slate-800 py-[.15rem] px-2 w-full focus:outline-none focus:ring-2 ${
-              error ? "focus:ring-pink-500" : "focus:ring-sky-300"
+            className={`rounded-md text-[#fff] bg-[#141414] py-[.15rem] px-2 w-full focus:outline-none focus:ring-2 ${
+              error ? "focus:ring-pink-500" : "focus:ring-[#0ea5e9]"
             }`}
           />
         </div>

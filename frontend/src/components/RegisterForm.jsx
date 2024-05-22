@@ -4,6 +4,7 @@ import InputField from "../ui/InputField";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import registerSchema from "../schemas/register.schema";
+import { registerUserRequest } from "../api/user.request";
 
 function RegisterForm() {
   const {
@@ -14,8 +15,9 @@ function RegisterForm() {
     resolver: yupResolver(registerSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+    await registerUserRequest(data);
   };
 
   return (
@@ -80,7 +82,7 @@ function RegisterForm() {
       />
       <button
         type="submit"
-        className=" w-[40%] bg-green-600 mt-4 px-2 py-1 text-white text-[1.1rem] rounded-md"
+        className=" w-[40%] bg-green-600 mt-4 px-2 py-1 text-white text-[1.1rem] rounded-md focus:bg-green-700 border-none outline-none"
       >
         Registrarse
       </button>
