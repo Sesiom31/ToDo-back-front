@@ -81,4 +81,13 @@ export const logoutUser = async (req, res) => {
   }
 };
 
-export const verifyAuth = async (req, res) => {};
+export const verifyUser = async (req, res) => {
+  try {
+    const user = req.user;
+    console.log("Verificado");
+    res.status(200).json({message : 'Token verificado', user})
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message : 'Error de autenticación'})
+  }
+};

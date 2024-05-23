@@ -18,10 +18,30 @@ body {
   color: #fffff0;
 }
 
+
+ /* Estilos para el autocoplete de los inputs */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px #141414 inset, 0 0 0 2px #0ea5e9 !important;
   -webkit-text-fill-color: #fff !important;
+}
+
+
+/* App.css or a dedicated CSS file */
+
+
+.loader {
+  border-top-color: #3498db; /* Color del borde superior */
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

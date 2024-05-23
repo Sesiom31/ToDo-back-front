@@ -11,7 +11,7 @@ export const registerUserRequest = async (user) => {
     return res.data;
   } catch (err) {
     console.log(err);
-    return Promise.reject(err)
+    return Promise.reject(err);
   }
 };
 
@@ -24,7 +24,7 @@ export const loginUserRequest = async (user) => {
     return res.data;
   } catch (err) {
     console.log(err);
-    return Promise.reject(err)
+    return Promise.reject(err);
   }
 };
 
@@ -35,6 +35,16 @@ export const logoutUserRequest = async () => {
     return res.data;
   } catch (err) {
     console.log(err);
-    return Promise.reject(err)
+    return Promise.reject(err);
+  }
+};
+
+export const verifyUserRequest = async () => {
+  try {
+    const res = await axios.get("/verify");
+    console.log("res", res.data);
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
   }
 };

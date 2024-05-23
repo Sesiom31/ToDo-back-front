@@ -3,10 +3,11 @@ import {
   loginUser,
   logoutUser,
   registerUser,
-  verifyAuth,
+  verifyUser,
 } from "../controllers/user.controller.js";
 import { validateDatosUser } from "../middlewares/validateDatosUser.middleware.js";
 import { userLoginSchema, userRegisterSchema } from "../schemas/user.schema.js";
+import { verifyToken } from "../middlewares/validateToken.middleware.js";
 
 const router = Router();
 
@@ -20,6 +21,6 @@ router.post("/login", validateDatosUser(userLoginSchema), loginUser);
 
 router.post("/logout", logoutUser);
 
-router.post("/verify", verifyAuth);
+router.get("/verify", verifyToken, verifyUser);
 
 export default router;

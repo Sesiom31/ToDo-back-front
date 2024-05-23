@@ -1,10 +1,12 @@
 import { faUser, faAt, faLock } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../ui/InputField";
 import loginSchema from "../schemas/login.schema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginUserRequest } from "../api/user.request";
+import { useDispatch } from "react-redux";
+import {  startLoading } from "../store/authSlice";
 
 function LoginForm() {
   const {
@@ -15,10 +17,15 @@ function LoginForm() {
     resolver: yupResolver(loginSchema),
   });
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onSubmit = async (data) => {
     try {
       console.log(data);
+      dispatch(startLoading());
       await loginUserRequest(data);
+      navigate("/profile");
     } catch (err) {
       console.error("Error al iniciar sesión", err);
     }

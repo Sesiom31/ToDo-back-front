@@ -4,6 +4,10 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { logoutUserRequest } from "../api/user.request";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { endLoading, startLoading, endLogin } from "../store/authSlice";
 
 const categorias = ["Hoy", "Planeado", "Importante", "Completado", "Todos"];
 const tareas = [
@@ -37,16 +41,29 @@ const tareas = [
 ];
 
 function ProfilePage() {
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
+  console.log(token);
 
   const handleLogout = async () => {
     try {
+      dispatch(startLoading())
       await logoutUserRequest();
-      
+
+      navigate("/login");
     } catch (err) {
-      console.error("Error en el cierre de sesión", err)
-      
+      console.error("Error en el cierre de sesión", err);
+    }
+    finally{
+      dispatch(endLogin())
     }
   };
+
+  useEffect(() => {
+    dispatch(endLoading());
+  }, [dispatch]);
+
   return (
     <section className="w-full h-screen">
       <nav className=" w-full h-20 bg-gray-800  flex justify-between items-center p-2 px-8 gap-4">
