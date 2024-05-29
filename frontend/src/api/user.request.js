@@ -48,3 +48,12 @@ export const verifyUserRequest = async () => {
     return Promise.reject(err);
   }
 };
+
+export const profileUserRequest = async () => {
+  try {
+    const res = await axios.get("/profile");
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};

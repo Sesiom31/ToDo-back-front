@@ -1,5 +1,10 @@
 import { User } from "../models/user.model.js";
 import { createToken } from "../utils/createToken.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
+
+const SECRET_JWT = process.env.SECRET_JWT;
 
 const COOKIE_NAME = "token";
 const COOKIE_OPTIONS = {
@@ -21,7 +26,7 @@ export const registerUser = async (req, res) => {
     if (user)
       return res.status(400).json({ message: "Este username ya está en uso" });
 
-    user = await new User({
+    user = new User({
       firstname,
       lastname,
       username,
@@ -35,7 +40,7 @@ export const registerUser = async (req, res) => {
     const token = await createToken(payload);
     res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
 
-    res.status(201).json({ message: "Usuario registrado exitosamente", token });
+    res.status(201).json({ message: "Usuario registrado exitosamente" });
   } catch (err) {
     console.error("Error al registrar el usuario", err);
 
@@ -60,7 +65,7 @@ export const loginUser = async (req, res) => {
     const token = await createToken(payload);
 
     res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
-    res.status(201).json({ message: "Usuario logueado exitosamente", token });
+    res.status(201).json({ message: "Usuario logueado exitosamente" });
   } catch (err) {
     console.error("Error al iniciar sesión", err);
     res.status(500).json({ message: "Error al iniciar sesión" });
@@ -83,11 +88,23 @@ export const logoutUser = async (req, res) => {
 
 export const verifyUser = async (req, res) => {
   try {
-    const user = req.user;
-    console.log("Verificado");
-    res.status(200).json({message : 'Token verificado', user})
+    const { token } = req.cookies;
+    if (!token) return res.status(401).json({ authenticated: false });
+    const decoded = jwt.verify(token, SECRET_JWT);
+
+    res.status(200).json({ authenticated: true, user: decoded });
   } catch (err) {
     console.log(err);
-    res.status(500).json({message : 'Error de autenticación'})
+    res.status(401).json({ authenticated: false });
+  }
+};
+
+export const profileUser = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) return res.status(401).json({ message: "El usuario no existe" });
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(401).json({ message: "El usuario no existe" });
   }
 };

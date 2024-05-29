@@ -1,12 +1,17 @@
 import { faUser, faAt, faLock } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../ui/InputField";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import registerSchema from "../schemas/register.schema";
 import { registerUserRequest } from "../api/user.request";
+import { useDispatch } from "react-redux";
+import { startLoading, endLoading, startLogin } from "../store/authSlice";
 
 function RegisterForm() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -17,11 +22,16 @@ function RegisterForm() {
 
   const onSubmit = async (data) => {
     try {
+      dispatch(startLoading());
       console.log(data);
-      await registerUserRequest(data);
-      
+      const res = await registerUserRequest(data);
+      console.log(res);
+      dispatch(startLogin())
+      navigate("/profile");
     } catch (err) {
-      console.error('Error en el registro', err)
+      console.error("Error en el registro", err);
+    } finally {
+      dispatch(endLoading());
     }
   };
 

@@ -6,9 +6,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginUserRequest } from "../api/user.request";
 import { useDispatch } from "react-redux";
-import {  startLoading } from "../store/authSlice";
+import {  endLoading, startLoading, startLogin } from "../store/authSlice";
 
-function LoginForm() {
+function LoginForm() {  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -17,17 +20,18 @@ function LoginForm() {
     resolver: yupResolver(loginSchema),
   });
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const onSubmit = async (data) => {
     try {
       console.log(data);
       dispatch(startLoading());
-      await loginUserRequest(data);
+      const res =  await loginUserRequest(data);
+      console.log(res)
+      dispatch(startLogin())
       navigate("/profile");
     } catch (err) {
       console.error("Error al iniciar sesión", err);
+    }finally{
+      dispatch(endLoading())
     }
   };
 

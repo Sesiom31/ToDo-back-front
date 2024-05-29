@@ -6,23 +6,57 @@ import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoadingSpinner from "./components/LoadingSpinner";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  isAuthenticated,
+  startLoading,
+  endLoading,
+  startLogin,
+} from "./store/authSlice";
+import { useEffect } from "react";
+import { verifyUserRequest } from "./api/user.request";
 
 function App() {
-  const token = useSelector((state) => state.auth.token);
+  const authenticated = useSelector(isAuthenticated);
+  const dispatch = useDispatch();
 
-  console.log(token);
+  useEffect(() => {
+    const verify = async () => {
+      try {
+        dispatch(startLoading());
+        const res = await verifyUserRequest();
+        console.log(res.authenticated);
+        if (res.authenticated) {
+          dispatch(startLogin());
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        dispatch(endLoading());
+      }
+    };
+
+    verify();
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
       <LoadingSpinner />
       <Routes>
-        <Route path="/" element={<Navigate to={"/login"} />} />
+        <Route
+          path="/"
+          element={<Navigate to={authenticated ? "/profile" : "/login"} />}
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/profile"
-          element={<ProtectedRoute element={<ProfilePage />} token={token} />}
+          element={
+            <ProtectedRoute
+              element={<ProfilePage />}
+              authenticated={authenticated}
+            />
+          }
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

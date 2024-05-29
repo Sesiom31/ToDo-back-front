@@ -1,5 +1,6 @@
 import express from "express";
-import userRoutes from "./routes/userRoutes.js";
+import userRouter from "./routes/userRoutes.js";
+import taskRouter from "./routes/taskRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -14,4 +15,5 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api", userRoutes);
+app.use("/api", userRouter);
+app.use("/api", taskRouter);

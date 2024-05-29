@@ -1,31 +1,15 @@
 import Home from "../components/Home";
 import LoginForm from "../components/LoginForm";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { verifyUserRequest } from "../api/user.request";
-import { startLoading, startLogin, endLoading } from "../store/authSlice";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { isAuthenticated,} from "../store/authSlice";
+import { Navigate } from "react-router-dom";
 
 function LoginPage() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  console.log("Login");
+  const authenticated = useSelector(isAuthenticated);
 
-  useEffect(() => {
-    const isVerify = async () => {
-      try {
-        dispatch(startLoading());
-        const res = await verifyUserRequest();
-        dispatch(startLogin(res.user.id));
-        navigate("/profile");
-      } catch (err) {
-        console.log(err);
-      } finally {
-        dispatch(endLoading());
-      }
-    };
 
-    isVerify();
-  }, [dispatch, navigate]);
+  if (authenticated) return <Navigate to={"/profile"} />;
 
   return (
     <section className=" flex h-screen w-full  ">

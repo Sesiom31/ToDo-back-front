@@ -2,10 +2,11 @@ import { Router } from "express";
 import {
   loginUser,
   logoutUser,
+  profileUser,
   registerUser,
   verifyUser,
 } from "../controllers/user.controller.js";
-import { validateDatosUser } from "../middlewares/validateDatosUser.middleware.js";
+import { validateDatos } from "../middlewares/validateDatos.middleware.js";
 import { userLoginSchema, userRegisterSchema } from "../schemas/user.schema.js";
 import { verifyToken } from "../middlewares/validateToken.middleware.js";
 
@@ -15,12 +16,14 @@ router.get("/", (req, res) => {
   console.log("hola");
 });
 
-router.post("/register", validateDatosUser(userRegisterSchema), registerUser);
+router.post("/register", validateDatos(userRegisterSchema), registerUser);
 
-router.post("/login", validateDatosUser(userLoginSchema), loginUser);
+router.post("/login", validateDatos(userLoginSchema), loginUser);
 
 router.post("/logout", logoutUser);
 
-router.get("/verify", verifyToken, verifyUser);
+router.get("/verify",  verifyUser);
+
+router.get('/profile',verifyToken, profileUser)
 
 export default router;
