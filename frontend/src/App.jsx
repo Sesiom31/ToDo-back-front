@@ -5,7 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
-import LoadingSpinner from "./components/LoadingSpinner";
+import LoadingSpinner from "./components/comp/LoadingSpinner.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import {
   isAuthenticated,

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import Home from "../components/Home";
-import RegisterForm from "../components/RegisterForm";
+import Home from "../components/comp/Home";
+import RegisterForm from "../components/register/RegisterForm";
 import { isAuthenticated } from "../store/authSlice";
 import { Navigate } from "react-router-dom";
 

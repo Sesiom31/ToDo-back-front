@@ -1,4 +1,5 @@
 import { User } from "../models/user.model.js";
+import { Task } from "../models/task.model.js";
 import { createToken } from "../utils/createToken.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -101,10 +102,68 @@ export const verifyUser = async (req, res) => {
 
 export const profileUser = async (req, res) => {
   try {
-    const user = req.user;
-    if (!user) return res.status(401).json({ message: "El usuario no existe" });
-    res.status(200).json({ user });
+    const { id } = req.user;
+    console.log("id: ", id);
+    if (!id) return res.status(401).json({ message: "El usuario no existe" });
+    const matchUser = await User.findById(id);
+    console.log(matchUser.fullname);
+
+    const tasks = await Task.find({ user: id });
+
+    res.status(200).json({
+      id,
+      fullname: matchUser.fullname,
+      categories: matchUser.categories,
+      tasks,
+    });
   } catch (err) {
-    res.status(401).json({ message: "El usuario no existe" });
+    res.status(401).json({ message: "Error en el servidor" });
+  }
+};
+
+export const getCategories = async (req, res) => {
+  try {
+    const { id } = req.user;
+    if (!id) return res.status(401).json({ message: "Usuario no encontrado" });
+    const user = await User.findById(id);
+    if (!user)
+      return res.status(401).json({ message: "Usuario no encontrado" });
+
+    const categories = user.categories;
+    res.status(201).json({ categories });
+  } catch (err) {
+    res.status(401).json({ message: "No existen categorias" });
+  }
+};
+
+export const addCategorie = async (req, res) => {
+  try {
+    const { categorie } = req.body;
+    const { id } = req.user;
+    console.log(categorie, id);
+    await User.findByIdAndUpdate(id, { $push: { categories: categorie } });
+    res.status(200).json({ message: "Categoría añadida exitosamente" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error al añadir la categoría " });
+  }
+};
+
+export const deleteCategorie = async (req, res) => {
+  try {
+    const { id } = req.user;
+
+    if (!id) return res.status(401).json({ message: "Usuario no autenticado" });
+
+    const { categorie } = req.body;
+
+    if (!categorie)
+      return res.status(400).json({ message: "La ctageoría no existe" });
+
+    await User.findByIdAndUpdate(id, { $pull: { categories: categorie } });
+
+    res.status(200).json({ message: "Categoría eliminada" });
+  } catch (err) {
+    res.status(500).json({ message: "Error al eliminar la categoría" });
   }
 };

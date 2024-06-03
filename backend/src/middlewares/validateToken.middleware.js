@@ -17,7 +17,6 @@ export const verifyToken = (req, res, next) => {
       if (err) return res.status(400).json({ message: "Token inválido" });
 
       req.user = decode;
-      console.log(req.user);
       next();
     });
   } catch (err) {

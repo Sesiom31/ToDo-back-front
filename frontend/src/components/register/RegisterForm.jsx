@@ -1,12 +1,12 @@
 import { faUser, faAt, faLock } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import InputField from "../ui/InputField";
+import InputField from "../../ui/InputField";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import registerSchema from "../schemas/register.schema";
-import { registerUserRequest } from "../api/user.request";
+import registerSchema from "../../schemas/register.schema";
+import { registerUserRequest } from "../../api/user.request";
 import { useDispatch } from "react-redux";
-import { startLoading, endLoading, startLogin } from "../store/authSlice";
+import { startLoading, endLoading, startLogin } from "../../store/authSlice";
 
 function RegisterForm() {
   const dispatch = useDispatch();

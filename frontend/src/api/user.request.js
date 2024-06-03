@@ -57,3 +57,34 @@ export const profileUserRequest = async () => {
     return Promise.reject(err);
   }
 };
+
+export const getCategoriesRequest = async () => {
+  try {
+    const res = await axios.get("/getCategories");
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const addCategoryRequest = async (categorie) => {
+  try {
+    const res = await axios.patch("/addCategorie", categorie, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const deleteCategorieRequest = async (categorie) => {
+  try {
+    const res = await axios.patch("/deleteCategorie", categorie, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};

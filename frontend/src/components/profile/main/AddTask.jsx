@@ -1,27 +1,30 @@
 import { useForm, useFieldArray } from "react-hook-form";
-import { format } from "date-fns";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import "../../DateInput.css";
+import "../../../DateInput.css";
 import { yupResolver } from "@hookform/resolvers/yup";
-import taskSchema from "../../schemas/task.schema";
-import es from "date-fns/locale/es";
+import taskSchema from "../../../schemas/task.schema";
 import PropTypes from "prop-types";
-import ButtonClose from "../../ui/ButtonClose";
-import Calendar from "../../ui/Calendar";
-import InfoCalendar from "../../ui/InfoCalendar";
+import ButtonClose from "../../../ui/ButtonClose";
+import Calendar from "../../../ui/Calendar";
+import InfoCalendar from "../../../ui/InfoCalendar";
 import PasosField from "./PasosField";
-import TaskField from "../../ui/TaskField";
-import DescriptionField from "../../ui/DescriptionField";
-import { createTaskRequest } from "../../api/task.request";
-import { useSelector } from "react-redux";
-import { getUser } from "../../store/authSlice";
+import TaskField from "../../../ui/TaskField";
+import DescriptionField from "../../../ui/DescriptionField";
+import { createTaskRequest } from "../../../api/task.request";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "../../../store/authSlice";
+import { getCurrentCategory, getTasks, setTasks } from "../../../store/taskSlice";
+import { dateFormat } from "../../../utils/configString";
 
-function AddTask({ onAddTask }) {
+function AddTask({ onAddTask, setIsLoad }) {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [taskIsFocus, setTaskIsFocus] = useState(false);
 
   const userId = useSelector(getUser); /* userId */
+  const currentCategorie = useSelector(getCurrentCategory);
+  const tasks = useSelector(getTasks);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -47,18 +50,34 @@ function AddTask({ onAddTask }) {
 
   const isImportant = watch("isImportant");
   const dateSet = watch("dateEnd");
-
-  const locale = es;
-  const dateFormat = format(dateSet, "iiii d 'de' MMMM 'del' yyyy", { locale });
-  console.log(dateFormat);
+  console.log(typeof dateSet);
 
   const onSubmit = async (data) => {
+    const belongsCategories = [
+      currentCategorie,
+      isImportant ? "importantes" : null,
+    ].filter(Boolean);
+
+    const originalTasks = [...tasks];
+
+    const newTask = {
+      ...data,
+      belongsCategories,
+      isComplete: false,
+      user: userId,
+      dateEnd : data.dateEnd.toISOString()
+    };
+
     try {
       onAddTask(false);
+      dispatch(setTasks([...tasks, newTask]));
       console.log(data);
-      await createTaskRequest({ ...data, user: userId });
+      await createTaskRequest(newTask);
     } catch (err) {
       console.log(err);
+      dispatch(setTasks(originalTasks));
+    } finally{
+      setIsLoad(true)
     }
   };
 
@@ -91,7 +110,7 @@ function AddTask({ onAddTask }) {
 
             <div className=" w-full mt-1 relative ">
               <InfoCalendar
-                dateFormat={dateFormat}
+                dateFormat={dateFormat(dateSet, "iiii d 'de' MMMM 'del' yyyy")}
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsOpenCalendar(!isOpenCalendar);

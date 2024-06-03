@@ -1,5 +1,8 @@
 import { Router } from "express";
 import {
+  addCategorie,
+  deleteCategorie,
+  getCategories,
   loginUser,
   logoutUser,
   profileUser,
@@ -22,8 +25,14 @@ router.post("/login", validateDatos(userLoginSchema), loginUser);
 
 router.post("/logout", logoutUser);
 
-router.get("/verify",  verifyUser);
+router.get("/verify", verifyUser);
 
-router.get('/profile',verifyToken, profileUser)
+router.get("/profile", verifyToken, profileUser);
+
+router.get("/getCategories", verifyToken, getCategories);
+
+router.patch("/addCategorie", verifyToken, addCategorie);
+
+router.patch("/deleteCategorie", verifyToken, deleteCategorie);
 
 export default router;

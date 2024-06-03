@@ -14,13 +14,13 @@
 
 body {
   font-family: "Poopins";
+  margin: 0;
+  padding: 0;
   font-weight: normal;
   color: #fffff0;
-  overflow: hidden;
 }
 
-
- /* Estilos para el autocoplete de los inputs */
+/* Estilos para el autocoplete de los inputs */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -29,9 +29,7 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: #fff !important;
 }
 
-
 /* App.css or a dedicated CSS file */
-
 
 .loader {
   border-top-color: #3498db; /* Color del borde superior */
@@ -47,11 +45,32 @@ input:-webkit-autofill:active {
   }
 }
 
-path{
+path {
   width: 100%;
 }
 
+/* Barra de desplazamiento */
 
-/* Date Picker */
+/* Estilo general para la barra de desplazamiento */
+::-webkit-scrollbar {
+  width: 5px; /* Ancho inicial de la barra de desplazamiento */
+  transition: width 0.3s; /* Transición para el cambio de ancho */
+}
 
-/* DatePickerStyles.css */
+::-webkit-scrollbar:hover {
+  width: 10px; /* Ancho de la barra de desplazamiento al pasar el mouse */
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(55 65 81) ; /* Color de fondo del track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(80, 115, 172); /* Color del thumb */
+  border-radius: 10px; /* Bordes redondeados del thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(80, 115, 172); /* Color del thumb al pasar el mouse */
+}
+

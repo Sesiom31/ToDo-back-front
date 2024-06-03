@@ -4,17 +4,23 @@ import {
   faArrowRightFromBracket,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { startLoading, endLogin, clearUser, endLoading } from "../../store/authSlice";
-import { logoutUserRequest } from "../../api/user.request";
+import { useDispatch} from "react-redux";
+import {
+  startLoading,
+  endLogin,
+  clearUser,
+  endLoading,
+} from "../../../store/authSlice";
+import { logoutUserRequest } from "../../../api/user.request";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import PropTypes from "prop-types";
+import { capitalize } from "../../../utils/configString";
 
-function Header() {
+function Header({ fullname }) {
   const [isFocus, setIsFocus] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const fullnameUser = useSelector((state) => state.auth.user);
 
   const handleLogout = async () => {
     try {
@@ -26,13 +32,13 @@ function Header() {
       console.error("Error en el cierre de sesión", err);
     } finally {
       dispatch(endLogin());
-      dispatch(endLoading())
+      dispatch(endLoading());
     }
   };
 
   return (
-    <header className="w-full h-auto">
-      <nav className=" w-full h-20 bg-gray-800  flex justify-between items-center p-2 px-8 gap-4">
+    <header className="w-full h-20">
+      <nav className=" w-full h-full bg-gray-800  flex justify-between items-center p-2 px-8 gap-4">
         <h1 className=" text-[#BFDBFE] text-3xl tracking-widest font-bold">
           Task
         </h1>
@@ -56,7 +62,7 @@ function Header() {
         </label>
         <div className="flex items-center gap-3  text-base ">
           <FontAwesomeIcon icon={faUser} className="text-sm" />
-          <h3>{fullnameUser}</h3>
+          <h3>{capitalize(fullname)}</h3>
         </div>
 
         <FontAwesomeIcon
@@ -68,5 +74,9 @@ function Header() {
     </header>
   );
 }
+
+Header.propTypes = {
+  fullname: PropTypes.string.isRequired,
+};
 
 export default Header;

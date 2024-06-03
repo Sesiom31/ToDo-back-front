@@ -1,5 +1,5 @@
-import Home from "../components/Home";
-import LoginForm from "../components/LoginForm";
+import Home from "../components/comp/Home";
+import LoginForm from "../components/login/LoginForm";
 import { useSelector } from "react-redux";
 import { isAuthenticated,} from "../store/authSlice";
 import { Navigate } from "react-router-dom";

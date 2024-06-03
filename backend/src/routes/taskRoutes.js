@@ -7,6 +7,7 @@ import {
   deleteTask,
   getTask,
   getTasks,
+  updateFieldTask,
   updateTask,
 } from "../controllers/task.controller.js";
 
@@ -18,7 +19,9 @@ router.get("/task/:id", verifyToken, getTask);
 
 router.post("/tasks", verifyToken, validateDatos(taskSchema), createTask);
 
-router.patch("/task/:id", verifyToken, validateDatos(taskSchema), updateTask);
+router.patch("/task/:id", verifyToken, updateTask);
+
+router.patch("/updateFieldTask", verifyToken, updateFieldTask);
 
 router.delete("/task/:id", verifyToken, deleteTask);
 

@@ -3,10 +3,9 @@ import axios from "./axios.js";
 export const getAllTasksRequest = async () => {
   try {
     const res = await axios.get("/tasks");
-    console.log(res);
     return res;
   } catch (err) {
-    console.log(err);
+    return Promise.reject(err);
   }
 };
 
@@ -17,6 +16,17 @@ export const createTaskRequest = async (data) => {
     });
 
     console.log(res);
+    return res;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const updateFieldTaskRequest = async (data) => {
+  try {
+    const res = await axios.patch("/updateFieldTask", data, {
+      headers: { "Content-Type": "application/json" },
+    });
     return res;
   } catch (err) {
     return Promise.reject(err);

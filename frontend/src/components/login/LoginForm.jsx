@@ -1,12 +1,12 @@
 import { faUser, faAt, faLock } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import InputField from "../ui/InputField";
-import loginSchema from "../schemas/login.schema";
+import InputField from "../../ui/InputField";
+import loginSchema from "../../schemas/login.schema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginUserRequest } from "../api/user.request";
+import { loginUserRequest } from "../../api/user.request";
 import { useDispatch } from "react-redux";
-import {  endLoading, startLoading, startLogin } from "../store/authSlice";
+import {  endLoading, startLoading, startLogin } from "../../store/authSlice";
 
 function LoginForm() {  
   const navigate = useNavigate();

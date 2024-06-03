@@ -12,6 +12,8 @@ const taskSchema = new mongoose.Schema(
     isImportant: { type: Boolean, default: false },
     isComplete: { type: Boolean, default: false },
     pasos: [pasoSchema],
+    belongsCategories: { type: [String], default: [] },
+    dateEnd: { type: Date, default: new Date() },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
