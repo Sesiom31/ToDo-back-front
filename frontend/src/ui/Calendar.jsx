@@ -3,12 +3,12 @@ import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-function Calendar({ control, name }) {
-  const [startDate, setStartDate] = useState(new Date());
+function Calendar({ control, name, start = new Date() }) {
+  const [startDate, setStartDate] = useState(start);
 
   return (
     <div
-      className=" absolute top-[-5rem]  left-10 z-[1000]"
+      className=" absolute top-[-5rem]  left-10 z-[200]"
       onClick={(e) => e.stopPropagation()}
     >
       <Controller
@@ -34,5 +34,6 @@ function Calendar({ control, name }) {
 Calendar.propTypes = {
   control: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
+  start: PropTypes.string,
 };
 export default Calendar;

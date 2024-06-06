@@ -15,7 +15,6 @@ export const createTaskRequest = async (data) => {
       headers: { "Content-Type": "application/json" },
     });
 
-    console.log(res);
     return res;
   } catch (err) {
     return Promise.reject(err);
@@ -32,3 +31,25 @@ export const updateFieldTaskRequest = async (data) => {
     return Promise.reject(err);
   }
 };
+
+export const updateTaskRequest = async (data) => {
+  try {
+    const res = await axios.put(`/updateTask/${data._id}`, data, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    return res.data;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+
+export const deleteTaskRequest = async(id) => {
+  try {
+    const res = await axios.delete(`task/${id}`)
+    return res.data
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}

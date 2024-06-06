@@ -18,6 +18,14 @@ body {
   padding: 0;
   font-weight: normal;
   color: #fffff0;
+  overflow: hidden;
+}
+
+.fondo-img{
+  background-image: url('./assets/images/paisaje-3.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 /* Estilos para el autocoplete de los inputs */

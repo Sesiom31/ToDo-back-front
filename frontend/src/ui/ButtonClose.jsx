@@ -1,24 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
-function ButtonClose({ onClick }) {
+function ButtonClose({ icon, classNameButton, classNameIcon, onClick }) {
   return (
-    <div
-      className="absolute z-[90] top-4 right-4 text-[1.5rem]"
-      onClick={onClick}
-    >
-      <FontAwesomeIcon
-        icon={faXmark}
-        className=" cursor-pointer rounded-full bg-white text-gray-600 aspect-square p-0.5 hover:scale-110"
-      />
-    </div>
+    <button className={classNameButton} onClick={onClick}>
+      <FontAwesomeIcon icon={icon} className={classNameIcon} />
+    </button>
   );
 }
 
 ButtonClose.propTypes = {
-  onClick : PropTypes.func.isRequired
-}
-
+  onClick: PropTypes.func.isRequired,
+  icon: PropTypes.object,
+  classNameButton: PropTypes.string,
+  classNameIcon: PropTypes.string,
+};
 
 export default ButtonClose;

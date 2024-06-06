@@ -9,7 +9,6 @@ import { profileUserRequest } from "../api/user.request";
 import { setCategories, setTasks } from "../store/taskSlice";
 
 function ProfilePage() {
-  console.log("COMPONENTE PROFILE");
   const [fullname, setFullname] = useState("");
   const dispatch = useDispatch();
   const [isLoad, setIsLoad] = useState(false);
@@ -26,13 +25,10 @@ function ProfilePage() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("EFECTO DEL PROFILE");
     const start = async () => {
       try {
-        console.log("FUNCION DENTRO DEL EFECTO");
         const res = await profileUserRequest();
         setFullname(await res.fullname);
-        console.log(res);
         dispatch(setUser(await res.id));
         dispatch(setTasks(res.tasks));
         dispatch(setCategories(res.categories));

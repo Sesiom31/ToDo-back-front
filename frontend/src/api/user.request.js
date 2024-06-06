@@ -7,10 +7,8 @@ export const registerUserRequest = async (user) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("res", res.data);
     return res.data;
   } catch (err) {
-    console.log(err);
     return Promise.reject(err);
   }
 };
@@ -20,10 +18,8 @@ export const loginUserRequest = async (user) => {
     const res = await axios.post("/login", user, {
       headers: { "Content-Type": "application/json" },
     });
-    console.log("res", res.data);
     return res.data;
   } catch (err) {
-    console.log(err);
     return Promise.reject(err);
   }
 };
@@ -31,10 +27,8 @@ export const loginUserRequest = async (user) => {
 export const logoutUserRequest = async () => {
   try {
     const res = await axios.post("/logout");
-    console.log("res", res.data);
     return res.data;
   } catch (err) {
-    console.log(err);
     return Promise.reject(err);
   }
 };
@@ -42,7 +36,6 @@ export const logoutUserRequest = async () => {
 export const verifyUserRequest = async () => {
   try {
     const res = await axios.get("/verify");
-    console.log("res", res.data);
     return res.data;
   } catch (err) {
     return Promise.reject(err);

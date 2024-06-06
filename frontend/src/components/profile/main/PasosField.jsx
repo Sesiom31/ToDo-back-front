@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
+import IconButton from "../../../ui/IconButton";
 
 function PasosField({ field, index, register, onClick }) {
   return (
@@ -14,18 +14,14 @@ function PasosField({ field, index, register, onClick }) {
           defaultValue={field.description}
           {...register(`pasos.${index}.description`)}
         />
-        <div>
-          <label htmlFor="trash">
-            <FontAwesomeIcon
-              icon={faTrash}
-              className={`
-                      text-gray-400
-                     text-base hover:text-red-700 cursor-pointer  `}
-              title="Eliminar paso"
-              onClick={onClick}
-            />
-          </label>
-        </div>
+
+        <IconButton
+          icon={faTrash}
+          htmlFor="delete"
+          className="text-gray-400 text-sm hover:text-orange-600 "
+          title="Eliminar paso"
+          onClick={onClick}
+        />
       </div>
     </div>
   );

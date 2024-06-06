@@ -25,7 +25,6 @@ function App() {
       try {
         dispatch(startLoading());
         const res = await verifyUserRequest();
-        console.log(res.authenticated);
         if (res.authenticated) {
           dispatch(startLogin());
         }

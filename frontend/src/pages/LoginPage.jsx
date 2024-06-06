@@ -5,7 +5,6 @@ import { isAuthenticated,} from "../store/authSlice";
 import { Navigate } from "react-router-dom";
 
 function LoginPage() {
-  console.log("Login");
   const authenticated = useSelector(isAuthenticated);
 
 

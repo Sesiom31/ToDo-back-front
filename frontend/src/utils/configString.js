@@ -9,11 +9,13 @@ export const capitalize = (str) =>
     .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
     .join(" ");
 
+export const capitalizeCategory = (str) => {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
-export const capitalizeCategory = (str) =>
-  str.charAt(0).toUpperCase() + str.slice(1);
+export const dateFormat = (date, formString) => {
 
-
-export const dateFormat= (date, formString) => {
+  if(!date) return date
   return format(date, formString, { locale });
 };

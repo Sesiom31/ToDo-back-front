@@ -12,7 +12,7 @@ function Home({ frase }) {
   });
 
   return (
-    <section className=" bg-[url('../../assets/images/paisaje-3.jpg')] bg-cover bg-no-repeat bg-center w-2/5 h-full">
+    <section className=" fondo-img  w-2/5 h-full">
       <h1 className="  mt-6 px-10 flex flex-col text-[#1f2e31] text-[4.5rem] font-bold">
         {trail.map((props, index) => (
           <animated.span

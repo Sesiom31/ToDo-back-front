@@ -23,9 +23,7 @@ function RegisterForm() {
   const onSubmit = async (data) => {
     try {
       dispatch(startLoading());
-      console.log(data);
-      const res = await registerUserRequest(data);
-      console.log(res);
+      await registerUserRequest(data);
       dispatch(startLogin())
       navigate("/profile");
     } catch (err) {

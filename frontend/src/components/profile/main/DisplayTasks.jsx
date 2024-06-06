@@ -7,7 +7,9 @@ function DisplayTasks({ tasksDisplay }) {
       {!tasksDisplay.length ? (
         <h3>No hay ninguna tarea</h3>
       ) : (
-        tasksDisplay.map((task) => <ListTask key={task.id} task={task} />)
+        tasksDisplay.map((task) => (
+          <ListTask key={task._id || task} task={task} />
+        ))
       )}
     </ul>
   );

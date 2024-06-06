@@ -1,68 +1,181 @@
-import { useSelector } from "react-redux";
-import { getCurrentTask } from "../../../store/taskSlice";
-import { capitalizeCategory } from "../../../utils/configString";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faStar } from "@fortawesome/free-solid-svg-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { getCurrentTask, getTasks } from "../../../store/taskSlice";
+import { capitalizeCategory} from "../../../utils/configString";
+import { updateTask } from "../../../utils/updateFunc";
+import ButtonAdd from "../../../ui/ButtonAdd";
+import { useEffect, useRef, useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import taskSchema from "../../../schemas/task.schema";
+import HeaderAside from "./HeaderAside";
+import TaskAside from "./TaskAside";
+import DescriptionAside from "./DescriptionAside";
+import DateAside from "./DateAside";
+import CategorieAside from "./CategorieAside";
+import PasosUpdateAside from "./PasosUpdateAside";
+import PasosAside from "./PasosAside";
 
 function AsideRight() {
+  const [updateIsOpen, setUpdateIsOpen] = useState(false);
+  const [updateDateIsOpen, setUpdateDateIsOpen] = useState(false);
   const currentTask = useSelector(getCurrentTask);
-  console.log(currentTask);
+  const tasks = useSelector(getTasks);
+  const dispatch = useDispatch();
+  const asideRef = useRef();
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(taskSchema),
+  });
+
+  const dataSet = watch("dateEnd");
+
+  const { fields, remove, append } = useFieldArray({
+    control,
+    name: "pasos",
+  });
+
+
+  const onSubmit = async (data) => {
+    updateTask(tasks, currentTask, data, dispatch);
+    setUpdateIsOpen(false);
+    setUpdateDateIsOpen(false);
+  };
+
+  
+  useEffect(() => {
+    reset({
+      task: capitalizeCategory(currentTask.task),
+      description: capitalizeCategory(currentTask.description),
+      isImportant: currentTask.isImportant,
+      isComplete: currentTask.isComplete,
+      dateEnd: currentTask.dateEnd,
+      pasos: currentTask.pasos?.length > 0 ? currentTask.pasos : [],
+    });
+  }, [currentTask, reset]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (asideRef.current && !asideRef.current.contains(e.target)) {
+        reset();
+        setUpdateIsOpen(false);
+        setUpdateDateIsOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [reset]);
 
   return (
-    <aside className=" bg-gray-700 col-span-3 p-2 flex flex-col gap-6">
+    <aside
+      className=" bg-gray-700 col-span-3  flex flex-col relative"
+      ref={asideRef}
+      onClick={() => {
+        setUpdateDateIsOpen(false);
+      }}
+    >
       {Object.keys(currentTask).length === 0 ? (
-        <h3>No hay una tarea seleccionada</h3>
+        <h3 className="text-gray-400 px-2">No hay una tarea seleccionada</h3>
       ) : (
-        <>
-          <div className="border-none  p-2 w-full ">
-            <div>
-              <span className="text-xs text-gray-400">Tarea:</span>
-              <h3 className="pl-2">{capitalizeCategory(currentTask.task)}</h3>
+        <form onSubmit={handleSubmit(onSubmit)} className=" h-full ">
+          <HeaderAside />
+          <div
+            className={`w-full overflow-y-auto max-h-[calc(100%-8.5rem)]  ${
+              updateIsOpen
+                ? "min-h-[calc(100%-8.5rem)]"
+                : "min-h-[calc(100%-5rem)]"
+            }  mt-8 `}
+          >
+            <div className="border-none  p-2 w-full flex flex-col gap-1   ">
+              <TaskAside
+                updateIsOpen={updateIsOpen}
+                register={register}
+                errors={errors}
+              />
+
+              <DescriptionAside
+                updateIsOpen={updateIsOpen}
+                register={register}
+                errors={errors}
+                watch={watch}
+              />
+
+              <DateAside
+                updateIsOpen={updateIsOpen}
+                updateDateIsOpen={updateDateIsOpen}
+                dataSet={dataSet}
+                setUpdateDateIsOpen={setUpdateDateIsOpen}
+                control={control}
+              />
+
+              <CategorieAside />
             </div>
-            <div>
-              <span className="text-xs text-gray-400">Descripción:</span>
-              <p className="pl-2">
-                {capitalizeCategory(currentTask.description)}
-              </p>
-            </div>
-            <div className="flex justify-around mt-6">
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-xs text-gray-400">completo</span>
-                <FontAwesomeIcon
-                  icon={faCircleCheck}
-                  className={`${
-                    currentTask.isComplete ? "text-orange-500" : "text-gray-400"
-                  } text-xs`}
-                />
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-xs text-gray-400">importante</span>
-                <FontAwesomeIcon
-                  icon={faStar}
-                  className={`${
-                    currentTask.isImportant
-                      ? "text-orange-500"
-                      : "text-gray-400"
-                  } text-base`}
-                />
-              </div>
-            </div>
+
+            {currentTask.pasos.length > 0 || updateIsOpen ? (
+              <>
+                {updateIsOpen ? (
+                  <PasosUpdateAside
+                    fields={fields}
+                    register={register}
+                    remove={remove}
+                  />
+                ) : (
+                  <PasosAside />
+                )}
+              </>
+            ) : (
+              <>{!updateIsOpen ? <h3 className="text-gray-400 px-2">No hay pasos...</h3> : <ul></ul>}</>
+            )}
           </div>
 
-          <button className=" bg-green-500 rounded-md p-2 w-full text-gray-800 text-lg my-4">
-            Agregar paso
-          </button>
-          <ul className="flex flex-col gap-6">
-            {currentTask.pasos.map((p, i) => (
-              <li
-                key={i}
-                className="border-none ring-2 ring-sky-300 rounded-md p-2 w-full "
-              >
-                <p>description: {p.description}</p>
-              </li>
-            ))}
-          </ul>
-        </>
+          {updateIsOpen && (
+            <ButtonAdd
+              name={"Agregar paso"}
+              classNameButton={
+                "rounded-md bg-yellow-500 text-gray-800 p-1 hover:bg-yellow-400 outline-none absolute bottom-12 right-2 left-2"
+              }
+              type="button"
+              onClick={() => {
+                append({ description: "" });
+              }}
+            />
+          )}
+
+          {updateIsOpen && (
+            <ButtonAdd
+              name={"Guardar"}
+              classNameButton={
+                "rounded-md bg-green-500 text-gray-800 p-1 hover:bg-green-400 outline-none absolute bottom-2 right-2 left-2"
+              }
+              type="submit"
+            />
+          )}
+
+          {!updateIsOpen && (
+            <ButtonAdd
+              name={"Actualizar tarea"}
+              classNameButton={
+                "rounded-md bg-green-500 text-gray-800 p-1 hover:bg-green-400 outline-none absolute bottom-2 right-2 left-2"
+              }
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setUpdateIsOpen(true);
+              }}
+            />
+          )}
+        </form>
       )}
     </aside>
   );

@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
+import IconButton from "./IconButton";
 
 function TaskField({
   taskIsFocus,
@@ -37,15 +37,14 @@ function TaskField({
             className=" hidden"
             {...register("isImportant")}
           />
-          <label htmlFor="important">
-            <FontAwesomeIcon
-              icon={faStar}
-              className={`${
-                isImportant ? "text-orange-500" : "text-gray-400"
-              } text-base hover:text-orange-500 cursor-pointer `}
-              title="Marcar como importante"
-            />
-          </label>
+          <IconButton
+            icon={faStar}
+            htmlFor="important"
+            className={`${
+              isImportant ? "text-orange-500" : "text-gray-400"
+            } text-base hover:text-orange-500 cursor-pointer `}
+            title="Marcar como importante"
+          />
         </div>
       </div>
       {errors.task && (

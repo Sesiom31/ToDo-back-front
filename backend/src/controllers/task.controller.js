@@ -11,8 +11,6 @@ export const getTasks = async (req, res) => {
   }
 };
 
-export const getTask = async (req, res) => {};
-
 export const createTask = async (req, res) => {
   try {
     const {
@@ -46,7 +44,28 @@ export const createTask = async (req, res) => {
   }
 };
 
-export const updateTask = async (req, res) => {};
+export const updateTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+
+    if (!id) return res.status(400).json({ message: "Id no encontrado" });
+
+    const task = await Task.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!task) {
+      return res.status(404).json({ message: "Tarea no encontrada" });
+    }
+
+    res.status(200).json({ message: "Tarea actualizada correctamente", task });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error al actualizar la tarea" });
+  }
+};
 
 export const updateFieldTask = async (req, res) => {
   try {
@@ -87,4 +106,17 @@ export const updateFieldTask = async (req, res) => {
   }
 };
 
-export const deleteTask = async (req, res) => {};
+export const deleteTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) return res.status(400).json({ message: "Id no encontrado" });
+
+    const task = await Task.findByIdAndDelete(id);
+
+    if (!task) return res.status(400).json({ message: "Tarea no encontrada" });
+
+    res.status(200).json({ message: "Tarea eliminada exitosamente" });
+  } catch (err) {
+    res.status(500).json({ message: "Error al eliminar la tarea" });
+  }
+};

@@ -14,8 +14,14 @@ import DescriptionField from "../../../ui/DescriptionField";
 import { createTaskRequest } from "../../../api/task.request";
 import { useSelector, useDispatch } from "react-redux";
 import { getUser } from "../../../store/authSlice";
-import { getCurrentCategory, getTasks, setTasks } from "../../../store/taskSlice";
+import {
+  getCurrentCategory,
+  getTasks,
+  setTasks,
+} from "../../../store/taskSlice";
 import { dateFormat } from "../../../utils/configString";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import ButtonAdd from "../../../ui/ButtonAdd";
 
 function AddTask({ onAddTask, setIsLoad }) {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
@@ -50,7 +56,6 @@ function AddTask({ onAddTask, setIsLoad }) {
 
   const isImportant = watch("isImportant");
   const dateSet = watch("dateEnd");
-  console.log(typeof dateSet);
 
   const onSubmit = async (data) => {
     const belongsCategories = [
@@ -65,19 +70,18 @@ function AddTask({ onAddTask, setIsLoad }) {
       belongsCategories,
       isComplete: false,
       user: userId,
-      dateEnd : data.dateEnd.toISOString()
+      dateEnd: data.dateEnd.toISOString(),
     };
 
     try {
       onAddTask(false);
       dispatch(setTasks([...tasks, newTask]));
-      console.log(data);
       await createTaskRequest(newTask);
     } catch (err) {
       console.log(err);
       dispatch(setTasks(originalTasks));
-    } finally{
-      setIsLoad(true)
+    } finally {
+      setIsLoad(true);
     }
   };
 
@@ -91,7 +95,14 @@ function AddTask({ onAddTask, setIsLoad }) {
         relative z-[60]  "
         onSubmit={handleSubmit(onSubmit)}
       >
-        <ButtonClose onClick={() => onAddTask(false)} />
+        <ButtonClose
+          onClick={() => onAddTask(false)}
+          icon={faXmark}
+          classNameButton={"absolute z-[90] top-4 right-4 text-[1.5rem]"}
+          classNameIcon={
+            "cursor-pointer rounded-full bg-white text-gray-600 aspect-square p-0.5 hover:scale-110"
+          }
+        />
 
         <div className="w-full h-[85%]  relative ">
           <h2 className=" text-2xl w-full text-center">Nueva tarea</h2>
@@ -116,6 +127,7 @@ function AddTask({ onAddTask, setIsLoad }) {
                   setIsOpenCalendar(!isOpenCalendar);
                 }}
                 title={"Agregar fecha de finalizacion"}
+                className=" w-full h-8 px-4 flex justify-start items-center gap-1 "
               />
 
               {isOpenCalendar && <Calendar control={control} name="dateEnd" />}
@@ -138,21 +150,21 @@ function AddTask({ onAddTask, setIsLoad }) {
         </div>
 
         <div className="w-full h-12 flex items-center justify-between px-4 py-0.5">
-          <button
-            type="button"
-            className="bg-gray-700 p-2 rounded-md w-40 hover:bg-gray-600"
+          <ButtonAdd
+            name="Agregar paso"
+            classNameButton="bg-gray-700 p-2 rounded-md w-40 h-full hover:bg-gray-600"
             onClick={() => {
               append({ description: "" });
             }}
-          >
-            Agregar paso
-          </button>
-          <button
-            className="bg-green-700 p-2 rounded-md w-40 self-end h-full hover:bg-green-600"
+          />
+
+          <ButtonAdd
+            name="Crear tarea"
             type="submit"
-          >
-            Crear tarea
-          </button>
+            classNameButton={
+              "bg-green-700 p-2 rounded-md w-40 self-end h-full hover:bg-green-600"
+            }
+          />
         </div>
       </form>
     </div>
@@ -161,6 +173,7 @@ function AddTask({ onAddTask, setIsLoad }) {
 
 AddTask.propTypes = {
   onAddTask: PropTypes.func.isRequired,
+  setIsLoad: PropTypes.func,
 };
 
 export default AddTask;
