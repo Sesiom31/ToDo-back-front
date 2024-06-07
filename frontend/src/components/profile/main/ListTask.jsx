@@ -15,25 +15,25 @@ import { useState, useEffect } from "react";
 function ListTask({ task }) {
   const dispatch = useDispatch();
   const tasks = useSelector(getTasks);
-  const [isLg, setIsLg] = useState(false);
+  const [isMd, setIsMd] = useState(false);
 
   const handleTaskClick = () => {
     dispatch(setCurrentTask(task));
     dispatch(setAsideRightIsVisible(true));
-    if (!isLg) {
+    if (!isMd) {
       dispatch(setAsideLeftIsVisible(false));
     }
   };
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width : 1024px)");
+    const mediaQuery = window.matchMedia("(min-width : 768px)");
 
     const handleMediaQuery = (e) => {
-      setIsLg(e.matches);
+      setIsMd(e.matches);
     };
 
     mediaQuery.addEventListener("change", handleMediaQuery);
-    setIsLg(mediaQuery.matches);
+    setIsMd(mediaQuery.matches);
 
     return () => mediaQuery.removeEventListener("change", handleMediaQuery);
   }, []);
