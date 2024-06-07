@@ -1,83 +1,22 @@
-import axios from "./axios.js";
+import { makeRequest } from "./axios";
 
-export const registerUserRequest = async (user) => {
-  try {
-    const res = await axios.post("/register", user, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const registerUserRequest = (data) =>
+  makeRequest({ method: "post", url: "/register", data });
 
-export const loginUserRequest = async (user) => {
-  try {
-    const res = await axios.post("/login", user, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return res.data;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const loginUserRequest = (data) =>
+  makeRequest({ method: "post", url: "/login", data });
 
-export const logoutUserRequest = async () => {
-  try {
-    const res = await axios.post("/logout");
-    return res.data;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const logoutUserRequest = () => makeRequest({ method: "post", url: "/logout" });
 
-export const verifyUserRequest = async () => {
-  try {
-    const res = await axios.get("/verify");
-    return res.data;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const verifyUserRequest = () => makeRequest({ method: "get", url: "/verify" });
 
-export const profileUserRequest = async () => {
-  try {
-    const res = await axios.get("/profile");
-    return res.data;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const profileUserRequest = () => makeRequest({ method: "get", url: "/profile" });
 
-export const getCategoriesRequest = async () => {
-  try {
-    const res = await axios.get("/getCategories");
-    return res.data;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const getCategoriesRequest = () =>
+  makeRequest({ method: "get", url: "/getCategories" });
 
-export const addCategoryRequest = async (categorie) => {
-  try {
-    const res = await axios.patch("/addCategorie", categorie, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return res.data;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const addCategoryRequest = (data) =>
+  makeRequest({ method: "patch", url: "/addCategorie", data });
 
-export const deleteCategorieRequest = async (categorie) => {
-  try {
-    const res = await axios.patch("/deleteCategorie", categorie, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return res.data;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const deleteCategorieRequest = (data) =>
+  makeRequest({ method: "patch", url: "/deleteCategorie", data });

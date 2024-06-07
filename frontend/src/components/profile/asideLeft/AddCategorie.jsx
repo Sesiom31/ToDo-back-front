@@ -19,7 +19,7 @@ function AddCategorie() {
 
   const onSubmit = async (data) => {
     const categoriesOriginal = [...categories];
-    
+
     try {
       dispatch(setCategories([...categories, data.categorie]));
       await addCategoryRequest(data);
@@ -36,16 +36,13 @@ function AddCategorie() {
       {!addIsOpen ? (
         <ButtonAdd
           name={"Agregar categoria"}
-          classNameButton={
-            " bg-green-500 rounded-md p-1 w-full mt-10 text-gray-800"
-          }
+          classNameButton={" bg-green-500 rounded-md p-1 w-full mt-10 text-gray-800"}
           onClick={() => setAddIsOpen(true)}
         />
       ) : (
-        <div className="w-full ">
+        <div className="w-full">
           <input
-            className=" bg-gray-500 rounded-md p-1 w-full mt-10 text-white outline-none 
-              focus:ring-1 focus:ring-sky-500"
+            className="mt-10 w-full rounded-md bg-gray-500 p-1 text-white outline-none focus:ring-1 focus:ring-sky-500"
             type="text"
             {...register("categorie", {
               required: { value: true, message: "El nombre es requerido" },
@@ -53,9 +50,7 @@ function AddCategorie() {
             })}
           />
           {errors.categorie && (
-            <span className="text-xs text-pink-500">
-              {errors.categorie.message}
-            </span>
+            <span className="text-xs text-pink-500">{errors.categorie.message}</span>
           )}
 
           <div className="mt-2 flex justify-between">
@@ -66,9 +61,7 @@ function AddCategorie() {
             />
             <ButtonAdd
               name={"Agregar"}
-              classNameButton={
-                "bg-green-600 p-0.5 px-1 w-16 rounded-md text-sm"
-              }
+              classNameButton={"bg-green-600 p-0.5 px-1 w-16 rounded-md text-sm"}
               onClick={handleSubmit(onSubmit)}
             />
           </div>

@@ -15,7 +15,6 @@ export const capitalizeCategory = (str) => {
 };
 
 export const dateFormat = (date, formString) => {
-
-  if(!date) return date
+  if (!date) return date;
   return format(date, formString, { locale });
 };

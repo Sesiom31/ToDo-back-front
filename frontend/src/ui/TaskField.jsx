@@ -2,39 +2,33 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import IconButton from "./IconButton";
 
-function TaskField({
-  taskIsFocus,
-  onFocus,
-  onBlur,
-  register,
-  isImportant,
-  errors,
-}) {
+function TaskField({ taskIsFocus, onFocus, onBlur, register, isImportant, errors }) {
   return (
-    <div className=" flex flex-col gap-1 w-full mt-6">
-      <label htmlFor="task" className=" text-sm">
+    <div className="mt-6 flex w-full flex-col gap-1">
+      <label htmlFor="task" className="text-sm text-gray-300">
         Tarea
       </label>
       <div
         className={` ${
           taskIsFocus && "ring-1 ring-sky-500"
-        } w-full bg-gray-700 rounded-md h-8 flex items-center justify-between pr-4 overflow-hidden`}
+        } flex h-8 w-full items-center justify-between overflow-hidden rounded-md bg-gray-700 pr-4`}
       >
         <input
           type="text"
           name="task"
           id="task"
-          className=" h-full bg-gray-700 w-[90%] outline-none p-2 px-4"
+          className="h-full w-[90%] bg-gray-700 p-2 px-4 outline-none"
           placeholder="Ingresa una tarea..."
           {...register("task")}
           onFocus={onFocus}
           onBlur={onBlur}
+          autoComplete="off"
         />
         <div>
           <input
             type="checkbox"
             id="important"
-            className=" hidden"
+            className="hidden"
             {...register("isImportant")}
           />
           <IconButton
@@ -42,7 +36,7 @@ function TaskField({
             htmlFor="important"
             className={`${
               isImportant ? "text-orange-500" : "text-gray-400"
-            } text-base hover:text-orange-500 cursor-pointer `}
+            } cursor-pointer text-base hover:text-orange-500`}
             title="Marcar como importante"
           />
         </div>

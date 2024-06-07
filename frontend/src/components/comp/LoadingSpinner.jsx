@@ -6,8 +6,8 @@ function LoadingSpinner() {
   if (!isLoading) return null;
 
   return (
-    <div className=" fixed bg-[#141414] bg-opacity-60 inset-0 w-full h-full z-50 flex justify-center items-center">
-      <div className="loader ease-linear rounded-full border-4 border-t-4 border-t-blue-600 border-l-blue-600 border-gray-300 h-12 w-12"></div>
+    <div className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-[#141414] bg-opacity-60">
+      <div className="loader h-12 w-12 rounded-full border-4 border-t-4 border-gray-300 border-l-blue-600 border-t-blue-600 ease-linear"></div>
     </div>
   );
 }

@@ -1,9 +1,3 @@
-/* const categories = ["trabajo", "hoy", "importante", "completo"];
-const tasks = [
-  { task: "darle a Mayra", percategories: ["  importante", "    hoy", "  completo"] },
-  { task: "darle a Lilian", percategories: [" Importante", "hoy     "] },
-]; */
-
 export const prepareCategories = (categories, tasks) => {
   const finish = categories.map((categ) => {
     let count = 0;
@@ -19,5 +13,3 @@ export const prepareCategories = (categories, tasks) => {
 
   return finish;
 };
-
-/* console.log(prepareCategories(categories, tasks)); */

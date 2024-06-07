@@ -8,7 +8,7 @@ function Calendar({ control, name, start = new Date() }) {
 
   return (
     <div
-      className=" absolute top-[-5rem]  left-10 z-[200]"
+      className="absolute left-10 top-[-5rem] z-[200]"
       onClick={(e) => e.stopPropagation()}
     >
       <Controller

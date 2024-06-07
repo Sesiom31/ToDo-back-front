@@ -34,14 +34,8 @@ const authSlice = createSlice({
   },
 });
 
-export const {
-  startLoading,
-  endLoading,
-  startLogin,
-  endLogin,
-  setUser,
-  clearUser,
-} = authSlice.actions;
+export const { startLoading, endLoading, startLogin, endLogin, setUser, clearUser } =
+  authSlice.actions;
 
 export const getUser = (state) => state.auth.user;
 export const isLoading = (state) => state.auth.isLoading;

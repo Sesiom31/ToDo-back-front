@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { getCurrentTask, getTasks } from "../../../store/taskSlice";
-import { capitalizeCategory} from "../../../utils/configString";
+import { capitalizeCategory } from "../../../utils/configString";
 import { updateTask } from "../../../utils/updateFunc";
 import ButtonAdd from "../../../ui/ButtonAdd";
 import { useEffect, useRef, useState } from "react";
@@ -14,12 +14,18 @@ import DateAside from "./DateAside";
 import CategorieAside from "./CategorieAside";
 import PasosUpdateAside from "./PasosUpdateAside";
 import PasosAside from "./PasosAside";
+import {
+  getAsideRightIsVisible,
+  setAsideRightIsVisible,
+} from "../../../store/visibleSlice";
 
 function AsideRight() {
   const [updateIsOpen, setUpdateIsOpen] = useState(false);
   const [updateDateIsOpen, setUpdateDateIsOpen] = useState(false);
+  const [isLg, setIsLg] = useState(false);
   const currentTask = useSelector(getCurrentTask);
   const tasks = useSelector(getTasks);
+  const asideRightIsVisible = useSelector(getAsideRightIsVisible);
   const dispatch = useDispatch();
   const asideRef = useRef();
 
@@ -41,14 +47,12 @@ function AsideRight() {
     name: "pasos",
   });
 
-
   const onSubmit = async (data) => {
     updateTask(tasks, currentTask, data, dispatch);
     setUpdateIsOpen(false);
     setUpdateDateIsOpen(false);
   };
 
-  
   useEffect(() => {
     reset({
       task: capitalizeCategory(currentTask.task),
@@ -76,40 +80,51 @@ function AsideRight() {
     };
   }, [reset]);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width : 1024px)");
+
+    const handleMediaQuery = (e) => {
+      setIsLg(e.matches);
+    };
+    mediaQuery.addEventListener("change", handleMediaQuery);
+    setIsLg(mediaQuery.matches);
+
+    if (isLg) dispatch(setAsideRightIsVisible(true));
+    else dispatch(setAsideRightIsVisible(false));
+  }, [isLg, dispatch]);
+
   return (
     <aside
-      className=" bg-gray-700 col-span-3  flex flex-col relative"
+      className={`${
+        asideRightIsVisible ? "a-open-right" : "a-right"
+      } absolute right-0 top-0 z-[200] flex h-full w-[55%] flex-col bg-gray-800 sm:px-4 md:w-[32%] lg:relative lg:col-span-4 lg:w-full`}
       ref={asideRef}
       onClick={() => {
         setUpdateDateIsOpen(false);
       }}
     >
       {Object.keys(currentTask).length === 0 ? (
-        <h3 className="text-gray-400 px-2">No hay una tarea seleccionada</h3>
+        <h3 className="px-2 pt-8 text-gray-400">No hay una tarea seleccionada</h3>
       ) : (
-        <form onSubmit={handleSubmit(onSubmit)} className=" h-full ">
+        <form onSubmit={handleSubmit(onSubmit)} className="h-full pt-14">
           <HeaderAside />
           <div
-            className={`w-full overflow-y-auto max-h-[calc(100%-8.5rem)]  ${
-              updateIsOpen
-                ? "min-h-[calc(100%-8.5rem)]"
-                : "min-h-[calc(100%-5rem)]"
-            }  mt-8 `}
+            className={`max-h-[calc(100%-8.5rem)] w-full overflow-y-auto ${
+              updateIsOpen ? "min-h-[calc(100%-8.5rem)]" : "min-h-[calc(100%-5rem)]"
+            } `}
           >
-            <div className="border-none  p-2 w-full flex flex-col gap-1   ">
+            <div className="flex w-full flex-col gap-1 border-none p-2 sm:gap-6">
               <TaskAside
                 updateIsOpen={updateIsOpen}
                 register={register}
                 errors={errors}
               />
-
               <DescriptionAside
                 updateIsOpen={updateIsOpen}
                 register={register}
                 errors={errors}
                 watch={watch}
               />
-
               <DateAside
                 updateIsOpen={updateIsOpen}
                 updateDateIsOpen={updateDateIsOpen}
@@ -117,24 +132,25 @@ function AsideRight() {
                 setUpdateDateIsOpen={setUpdateDateIsOpen}
                 control={control}
               />
-
               <CategorieAside />
             </div>
 
             {currentTask.pasos.length > 0 || updateIsOpen ? (
               <>
                 {updateIsOpen ? (
-                  <PasosUpdateAside
-                    fields={fields}
-                    register={register}
-                    remove={remove}
-                  />
+                  <PasosUpdateAside fields={fields} register={register} remove={remove} />
                 ) : (
                   <PasosAside />
                 )}
               </>
             ) : (
-              <>{!updateIsOpen ? <h3 className="text-gray-400 px-2">No hay pasos...</h3> : <ul></ul>}</>
+              <>
+                {!updateIsOpen ? (
+                  <h3 className="px-2 text-gray-400">No hay pasos...</h3>
+                ) : (
+                  <ul></ul>
+                )}
+              </>
             )}
           </div>
 

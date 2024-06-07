@@ -10,17 +10,15 @@ function CategorieAside() {
   const dispatch = useDispatch();
 
   return (
-    <div className="flex justify-around items-center h-16">
-      <div className="flex flex-col items-center gap-1  h-full">
-        <span className="text-xs text-gray-400 h-6  flex items-center">
-          completo
-        </span>
+    <div className="flex h-16 items-center justify-around">
+      <div className="flex h-full flex-col items-center gap-1">
+        <span className="flex h-6 items-center text-xs text-gray-400">completo</span>
         <IconButton
           icon={faCircleCheck}
           htmlFor="complete"
           className={`${
             currentTask.isComplete ? "text-orange-500" : "text-gray-400"
-          } text-xs  `}
+          } text-xs`}
           onClick={(e) => {
             e.stopPropagation();
             updateField(
@@ -28,15 +26,13 @@ function CategorieAside() {
               "isComplete",
               !currentTask.isComplete,
               dispatch,
-              tasks
+              tasks,
             );
           }}
         />
       </div>
-      <div className="flex flex-col items-center gap-1 h-full">
-        <span className="text-xs text-gray-400 h-6 flex items-center">
-          importante
-        </span>
+      <div className="flex h-full flex-col items-center gap-1">
+        <span className="flex h-6 items-center text-xs text-gray-400">importante</span>
 
         <IconButton
           icon={faStar}
@@ -52,7 +48,7 @@ function CategorieAside() {
               "isImportant",
               !currentTask.isImportant,
               dispatch,
-              tasks
+              tasks,
             );
           }}
         />

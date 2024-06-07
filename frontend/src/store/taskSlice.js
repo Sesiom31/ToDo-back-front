@@ -36,12 +36,7 @@ export const getCategories = (state) => state.tasks.categories;
 export const getCurrentCategory = (state) => state.tasks.currentCategory;
 export const getSearch = (state) => state.tasks.search;
 
-export const {
-  setTasks,
-  setCurrentTask,
-  setCategories,
-  setCurrentCategory,
-  setSearch,
-} = tasksSlice.actions;
+export const { setTasks, setCurrentTask, setCategories, setCurrentCategory, setSearch } =
+  tasksSlice.actions;
 
 export default tasksSlice.reducer;

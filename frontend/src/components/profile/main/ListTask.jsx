@@ -6,39 +6,53 @@ import { faCircleCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 import { capitalizeCategory } from "../../../utils/configString";
 import { dateFormat } from "../../../utils/configString";
 import IconButton from "../../../ui/IconButton";
+import {
+  setAsideLeftIsVisible,
+  setAsideRightIsVisible,
+} from "../../../store/visibleSlice";
+import { useState, useEffect } from "react";
 
 function ListTask({ task }) {
   const dispatch = useDispatch();
   const tasks = useSelector(getTasks);
+  const [isLg, setIsLg] = useState(false);
 
+  const handleTaskClick = () => {
+    dispatch(setCurrentTask(task));
+    dispatch(setAsideRightIsVisible(true));
+    if (!isLg) {
+      dispatch(setAsideLeftIsVisible(false));
+    }
+  };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width : 1024px)");
+
+    const handleMediaQuery = (e) => {
+      setIsLg(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleMediaQuery);
+    setIsLg(mediaQuery.matches);
+
+    return () => mediaQuery.removeEventListener("change", handleMediaQuery);
+  }, []);
 
   return (
     <li
-      className="bg-gray-800 border-none ring-1 ring-sky-500 rounded-md p-2 py-3 w-full  flex justify-between items-center hover:bg-gray-600 "
-      onClick={() => {
-        dispatch(setCurrentTask(task));
-        console.log(tasks)
-
-      }}
+      className="flex w-full items-center justify-between rounded-md border-none bg-gray-800 p-2 py-3 ring-1 ring-sky-500 hover:bg-gray-600"
+      onClick={handleTaskClick}
     >
-      <div className="flex justify-between items-center gap-4 pl-2 ">
+      <div className="flex items-center justify-between gap-4 pl-2">
         <IconButton
           icon={faCircleCheck}
           htmlFor="complete"
-          className={`${
-            task.isComplete ? "text-orange-500" : "text-gray-400"
-          } text-xs`}
+          className={`${task.isComplete ? "text-orange-500" : "text-gray-400"} text-xs`}
           onClick={(e) => {
             e.stopPropagation();
             dispatch(setCurrentTask(task));
 
-            updateField(
-              task._id,
-              "isComplete",
-              !task.isComplete,
-              dispatch,
-              tasks
-            );
+            updateField(task._id, "isComplete", !task.isComplete, dispatch, tasks);
           }}
         />
 
@@ -49,8 +63,7 @@ function ListTask({ task }) {
             {task.description.length > 30 && " ..."}
           </p>
           <span className="text-[0.8rem] text-gray-400">
-            completar hasta el{" "}
-            {dateFormat(task.dateEnd, " iiii dd 'de' MMMM 'del' yyyy")}
+            completar hasta el {dateFormat(task.dateEnd, " iiii dd 'de' MMMM 'del' yyyy")}
           </span>
         </div>
       </div>
@@ -60,17 +73,11 @@ function ListTask({ task }) {
         htmlFor="important"
         className={`${
           task.isImportant ? "text-orange-500" : "text-gray-400"
-        } text-sm pr-2`}
+        } pr-2 text-sm`}
         onClick={(e) => {
           e.stopPropagation();
           dispatch(setCurrentTask(task));
-          updateField(
-            task._id,
-            "isImportant",
-            !task.isImportant,
-            dispatch,
-            tasks
-          );
+          updateField(task._id, "isImportant", !task.isImportant, dispatch, tasks);
         }}
       />
     </li>

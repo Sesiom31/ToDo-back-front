@@ -12,8 +12,8 @@ function Home({ frase }) {
   });
 
   return (
-    <section className=" fondo-img  w-2/5 h-full">
-      <h1 className="  mt-6 px-10 flex flex-col text-[#1f2e31] text-[4.5rem] font-bold">
+    <section className="fondo-img h-[20%] w-full sm:h-[35%] md:h-[40%] lg:h-full lg:w-[40%]">
+      <h1 className="mt-6 flex flex-col items-center px-10 text-[4.2rem] font-bold text-[#1b2425] sm:text-[5rem]">
         {trail.map((props, index) => (
           <animated.span
             key={index}

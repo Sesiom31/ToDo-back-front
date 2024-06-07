@@ -19,22 +19,34 @@ body {
   font-weight: normal;
   color: #fffff0;
   overflow: hidden;
+  background-color: rgb(55 65 81);
 }
 
-.fondo-img{
-  background-image: url('./assets/images/paisaje-3.jpg');
+.fondo-img {
+  background-image: url("./assets/images/paisaje-3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
 /* Estilos para el autocoplete de los inputs */
-input:-webkit-autofill,
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgb(55 65 81) inset;
+  -webkit-text-fill-color: #fff !important;
+}
+
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0px 1000px #141414 inset, 0 0 0 2px #0ea5e9 !important;
+  -webkit-box-shadow:
+    0 0 0px 1000px rgb(55 65 81) inset,
+    0 0 0 1px #0ea5e9;
   -webkit-text-fill-color: #fff !important;
+}
+
+input[type="password"]::-ms-reveal {
+  color: #fff; /* Cambia el color del ícono */
 }
 
 /* App.css or a dedicated CSS file */
@@ -70,7 +82,7 @@ path {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgb(55 65 81) ; /* Color de fondo del track */
+  background: rgb(55 65 81); /* Color de fondo del track */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -82,3 +94,46 @@ path {
   background-color: rgb(80, 115, 172); /* Color del thumb al pasar el mouse */
 }
 
+/* animación aside left */
+
+.a-open-left {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    transform 0.2s ease-in-out,
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out;
+}
+
+.a-left {
+  transform: translateX(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.2s ease-in-out,
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out;
+}
+
+/* anmacion aside right */
+
+.a-open-right {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    transform 0.2s ease-in-out,
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out;
+}
+
+.a-right {
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.2s ease-in-out,
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out;
+}

@@ -3,7 +3,7 @@ import ListCategorie from "./ListCategorie";
 
 function DisplayCategories({ categories }) {
   return (
-    <ul className="flex flex-col px-1 w-full overflow-y-auto max-h-[55%]">
+    <ul className="flex max-h-[55%] w-full flex-col overflow-y-auto px-1 md:max-h-[75%]">
       {categories.map((cat, i) => (
         <ListCategorie key={i} cat={cat} />
       ))}
@@ -16,3 +16,5 @@ DisplayCategories.propTypes = {
 };
 
 export default DisplayCategories;
+
+/* flex flex-col px-1 w-full overflow-y-auto max-h-[55%] md:max-h-[75%] */

@@ -12,7 +12,7 @@ export const updateField = async (
   newValue,
   dispatch,
   tasks,
-  currentTask = {}
+  currentTask = {},
 ) => {
   const originalTasks = [...tasks];
   console.log(taskId, field, newValue);
@@ -74,7 +74,6 @@ export const updateTask = async (tasks, currentTask, data, dispatch) => {
   });
 
   try {
-    
     dispatch(setCurrentTask(newCurrentTask));
     dispatch(setTasks(newTasks));
     await updateTaskRequest(newCurrentTask);

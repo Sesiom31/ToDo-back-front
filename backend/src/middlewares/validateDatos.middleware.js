@@ -6,6 +6,6 @@ export const validateDatos = (schema) => (req, res, next) => {
     const formattedError = err.errors.map((error) => error.message).join(", ");
     res
       .status(400)
-      .json({ message: formattedError, name: "error al validar datos" });
+      .json({ message: formattedError, name: "error al validar datos", xxx : req.body });
   }
 };

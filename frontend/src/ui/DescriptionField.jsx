@@ -2,21 +2,19 @@ import PropTypes from "prop-types";
 
 function DescriptionField({ register, errors }) {
   return (
-    <div className="flex flex-col gap-1 w-full mt-6">
-      <label htmlFor="description" className="text-sm">
+    <div className="mt-6 flex w-full flex-col gap-1">
+      <label htmlFor="description" className="text-sm text-gray-300">
         Descripción
       </label>
       <textarea
         name="description"
         id="description"
-        className=" min-h-16 bg-gray-700 w-full outline-none p-2 px-4 rounded-md focus:ring-1 focus:ring-sky-500"
+        className="min-h-16 w-full rounded-md bg-gray-700 p-2 px-4 outline-none focus:ring-1 focus:ring-sky-500"
         placeholder="Ingresa una descripción"
         {...register("description")}
       />
       {errors.description && (
-        <span className="text-xs text-pink-600">
-          {errors.description.message}
-        </span>
+        <span className="text-xs text-pink-600">{errors.description.message}</span>
       )}
     </div>
   );

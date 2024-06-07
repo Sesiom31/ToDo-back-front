@@ -29,20 +29,19 @@ function ListCategorie({ cat }) {
 
   return (
     <li
-      className="flex justify-between p-2 text-base cursor-pointer
-             hover:bg-gray-600 group "
+      className="group flex cursor-pointer justify-between p-2 text-base hover:bg-gray-600"
       onClick={() => {
         console.log("lista categoria");
         dispatch(setCurrentCategory(cat.name));
       }}
     >
       <p>{capitalizeCategory(cat.name)}</p>
-      <div className="flex justify-between items-center gap-4">
+      <div className="flex items-center justify-between gap-4">
         {!noDeleteCategories.includes(cat.name) && (
           <IconButton
             icon={faTrashCan}
             htmlFor="delete-categorie"
-            className="text-[0.7rem] text-orange-600 hidden group-hover:block"
+            className="text-[0.7rem] text-orange-600 lg:hidden lg:group-hover:block"
             onClick={(e) => {
               e.stopPropagation();
               onDeleteCategorie(cat.name);

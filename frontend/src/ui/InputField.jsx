@@ -11,33 +11,30 @@ function InputField({
   error = null,
 }) {
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex w-full justify-center items-center px-2 gap-8">
-        <div className=" w-[30%] flex gap-2 items-center justify-end">
-          <FontAwesomeIcon icon={icon} className=" text-white" />
-          <label htmlFor={name} className=" text-white">
+    <div className="relative flex w-full flex-col">
+      <div className="flex w-full items-center justify-center gap-8 px-2">
+        <div className="flex w-[15%] items-center justify-end gap-2 text-end">
+          <FontAwesomeIcon icon={icon} className="text-white" />
+          <label htmlFor={name} className="w-auto text-[1rem] text-white sm:text-[1rem]">
             {label}
           </label>
         </div>
 
-        <div className=" flex flex-col w-[50%]">
+        <div className="relative flex w-[50%] flex-col">
           <input
             type={type}
             name={name}
             placeholder={placeholder}
             {...register(name)}
-            className={`rounded-md text-[#fff] bg-[#141414] py-[.15rem] px-2 w-full focus:outline-none focus:ring-2 ${
-              error ? "focus:ring-pink-500" : "focus:ring-[#0ea5e9]"
-            }`}
+            autoComplete="off"
+            className={`w-full rounded-md bg-gray-700 px-2 py-[.15rem] text-[0.9rem] text-[#fff] ring-1 focus:outline-none focus:ring-1 sm:text-base ${
+              error && "ring-pink-500"
+            } ${error ? "focus:ring-pink-500" : "focus:ring-[#0ea5e9]"} `}
           />
+          <span className="absolute left-0 top-6 mt-1 w-full px-1 text-[0.8rem] text-pink-500">
+            {error && error.message}
+          </span>
         </div>
-      </div>
-
-      <div className="w-full flex justify-center h-4 gap-8">
-        <span className="w-[30%]"></span>
-        <span className="text-pink-600 text-sm mt-1 px-2 w-[50%]">
-          {error && error.message}
-        </span>
       </div>
     </div>
   );

@@ -15,10 +15,6 @@ import { verifyToken } from "../middlewares/validateToken.middleware.js";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  console.log("hola");
-});
-
 router.post("/register", validateDatos(userRegisterSchema), registerUser);
 
 router.post("/login", validateDatos(userLoginSchema), loginUser);

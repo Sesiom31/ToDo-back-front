@@ -14,11 +14,7 @@ import DescriptionField from "../../../ui/DescriptionField";
 import { createTaskRequest } from "../../../api/task.request";
 import { useSelector, useDispatch } from "react-redux";
 import { getUser } from "../../../store/authSlice";
-import {
-  getCurrentCategory,
-  getTasks,
-  setTasks,
-} from "../../../store/taskSlice";
+import { getCurrentCategory, getTasks, setTasks } from "../../../store/taskSlice";
 import { dateFormat } from "../../../utils/configString";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import ButtonAdd from "../../../ui/ButtonAdd";
@@ -87,12 +83,11 @@ function AddTask({ onAddTask, setIsLoad }) {
 
   return (
     <div
-      className=" absolute inset-0 w-full h-full z-50 bg-[#464545] bg-opacity-70 flex justify-center py-10"
+      className="absolute inset-0 z-50 flex h-full w-full -translate-y-24 items-center justify-center bg-[#464545] bg-opacity-70 py-10"
       onClick={() => setIsOpenCalendar(false)}
     >
       <form
-        className=" w-[60%] h-full bg-gray-800 flex flex-col   pt-10 pb-4 items-start justify-between rounded-lg 
-        relative z-[60]  "
+        className="relative z-[60] flex h-[65%] w-[90%] flex-col items-start justify-between rounded-lg bg-gray-800 pb-4 pt-10"
         onSubmit={handleSubmit(onSubmit)}
       >
         <ButtonClose
@@ -104,10 +99,10 @@ function AddTask({ onAddTask, setIsLoad }) {
           }
         />
 
-        <div className="w-full h-[85%]  relative ">
-          <h2 className=" text-2xl w-full text-center">Nueva tarea</h2>
+        <div className="relative h-[85%] w-full">
+          <h2 className="w-full text-center text-2xl">Nueva tarea</h2>
 
-          <div className="w-full overflow-y-auto max-h-[92%] h-full px-6 ">
+          <div className="h-full max-h-[92%] w-full overflow-y-auto px-6">
             <TaskField
               taskIsFocus={taskIsFocus}
               isImportant={isImportant}
@@ -119,7 +114,7 @@ function AddTask({ onAddTask, setIsLoad }) {
 
             <DescriptionField register={register} errors={errors} />
 
-            <div className=" w-full mt-1 relative ">
+            <div className="relative mt-1 w-full">
               <InfoCalendar
                 dateFormat={dateFormat(dateSet, "iiii d 'de' MMMM 'del' yyyy")}
                 onClick={(e) => {
@@ -127,13 +122,13 @@ function AddTask({ onAddTask, setIsLoad }) {
                   setIsOpenCalendar(!isOpenCalendar);
                 }}
                 title={"Agregar fecha de finalizacion"}
-                className=" w-full h-8 px-4 flex justify-start items-center gap-1 "
+                className="flex h-8 w-full items-center justify-start gap-1 px-4"
               />
 
               {isOpenCalendar && <Calendar control={control} name="dateEnd" />}
             </div>
 
-            <ul className="w-full flex flex-col items-center gap-6 mt-10 max-h-[50%] ">
+            <ul className="mb-20 mt-10 flex max-h-[50%] w-full flex-col items-center gap-6">
               {fields.map((field, index) => (
                 <PasosField
                   key={field.id}
@@ -149,7 +144,7 @@ function AddTask({ onAddTask, setIsLoad }) {
           </div>
         </div>
 
-        <div className="w-full h-12 flex items-center justify-between px-4 py-0.5">
+        <div className="flex h-12 w-full items-center justify-between px-4 py-0.5">
           <ButtonAdd
             name="Agregar paso"
             classNameButton="bg-gray-700 p-2 rounded-md w-40 h-full hover:bg-gray-600"

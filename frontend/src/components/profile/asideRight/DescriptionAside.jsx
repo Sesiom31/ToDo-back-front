@@ -17,24 +17,21 @@ function DescriptionAside({ updateIsOpen, register, errors, watch }) {
   }, [description, updateIsOpen]);
 
   return (
-    <div className="min-h-[3.5rem] h-auto">
+    <div className="h-auto min-h-[3.5rem]">
       <span className="text-xs text-gray-400">Descripción:</span>
       {updateIsOpen ? (
         <>
           <textarea
             id="descriptionTextarea"
-            className="w-full min-h-[1.6rem] h-auto px-2 ring-1 ring-sky-400 outline-none
-                  bg-gray-800 rounded-md text-white resize-none"
+            className="h-auto min-h-[1.6rem] w-full resize-none rounded-md bg-gray-800 px-2 text-white outline-none ring-1 ring-sky-400"
             {...register("description")}
           />
           {errors.description && (
-            <span className="text-xs text-pink-500">
-              {errors.description.message}
-            </span>
+            <span className="text-xs text-pink-500">{errors.description.message}</span>
           )}
         </>
       ) : (
-        <p className="pl-2 min-h-[1.6rem] h-auto">
+        <p className="h-auto min-h-[1.6rem] pl-2">
           {capitalizeCategory(currentTask.description)}
         </p>
       )}

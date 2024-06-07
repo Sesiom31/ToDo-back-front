@@ -1,55 +1,15 @@
-import axios from "./axios.js";
+import { makeRequest } from "./axios";
 
-export const getAllTasksRequest = async () => {
-  try {
-    const res = await axios.get("/tasks");
-    return res;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const getAllTasksRequest = () => makeRequest({ method: "get", url: "/tasks" });
 
-export const createTaskRequest = async (data) => {
-  try {
-    const res = await axios.post("/tasks", data, {
-      headers: { "Content-Type": "application/json" },
-    });
+export const createTaskRequest = (data) =>
+  makeRequest({ method: "post", url: "/tasks", data });
 
-    return res;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const updateFieldTaskRequest = (data) =>
+  makeRequest({ method: "patch", url: "/task", data });
 
-export const updateFieldTaskRequest = async (data) => {
-  try {
-    const res = await axios.patch("/updateFieldTask", data, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return res;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+export const updateTaskRequest = (data) =>
+  makeRequest({ method: "put", url: `/task/${data._id}`, data });
 
-export const updateTaskRequest = async (data) => {
-  try {
-    const res = await axios.put(`/updateTask/${data._id}`, data, {
-      headers: { "Content-Type": "application/json" },
-    });
-
-    return res.data;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
-
-export const deleteTaskRequest = async(id) => {
-  try {
-    const res = await axios.delete(`task/${id}`)
-    return res.data
-  } catch (err) {
-    return Promise.reject(err)
-  }
-}
+export const deleteTaskRequest = (id) =>
+  makeRequest({ method: "delete", url: `/task/${id}` });

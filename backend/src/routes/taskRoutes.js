@@ -14,15 +14,12 @@ const router = Router();
 
 router.get("/tasks", verifyToken, getTasks);
 
-
 router.post("/tasks", verifyToken, validateDatos(taskSchema), createTask);
 
-router.patch("/task/:id", verifyToken, updateTask);
-
-router.patch("/updateFieldTask", verifyToken, updateFieldTask);
+router.patch("/task", verifyToken, updateFieldTask);
 
 router.put(
-  "/updateTask/:id",
+  "/task/:id",
   verifyToken,
   validateDatos(taskSchema),
   updateTask

@@ -1,16 +1,18 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddTask from "./AddTask";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getCurrentCategory, getSearch, getTasks } from "../../../store/taskSlice";
 import {
-  getCurrentCategory,
-  getSearch,
-  getTasks,
-} from "../../../store/taskSlice";
+  getAsideLeftIsVisible,
+  setAsideLeftIsVisible,
+  setAsideRightIsVisible,
+} from "../../../store/visibleSlice";
 import { capitalizeCategory, dateFormat } from "../../../utils/configString";
 import PropTypes from "prop-types";
 import DisplayTasks from "./DisplayTasks";
 import ButtonAdd from "../../../ui/ButtonAdd";
+import IconButton from "../../../ui/IconButton";
 
 function Main({ setIsLoad }) {
   const [isOpenAddTask, setIsOpenAddTask] = useState(false);
@@ -18,6 +20,9 @@ function Main({ setIsLoad }) {
   const tasks = useSelector(getTasks);
   const search = useSelector(getSearch);
   const currentCategory = useSelector(getCurrentCategory);
+  const asideLeftIsVisible = useSelector(getAsideLeftIsVisible);
+
+  const dispatch = useDispatch();
 
   const tasksDisplay = tasks.filter((task) => {
     if (search !== "")
@@ -31,20 +36,28 @@ function Main({ setIsLoad }) {
   const categorieNoCreate = ["importantes", "completadas"];
 
   return (
-    <main
-      className=" bg-gray-700 col-span-7  flex flex-col gap-4 items-start h-full border-l border-l-gray-300
-      border-r border-r-gray-300
-    "
-    >
+    <main className="relative col-span-12 flex h-full flex-col items-start gap-4 bg-gray-700 md:col-span-9 lg:col-span-6">
+      <IconButton
+        icon={faBars}
+        htmlFor="open-aside"
+        className="text-xl text-orange-500"
+        classNameButton={`absolute top-8 left-4 lg:hidden ${
+          asideLeftIsVisible && "hidden"
+        }`}
+        onClick={() => {
+          dispatch(setAsideRightIsVisible(false));
+          dispatch(setAsideLeftIsVisible(true));
+        }}
+      />
       <section
-        className={`w-full h-36 py-4 ${
-          categorieNoCreate.includes(currentCategory) && "h-24"
+        className={`h-36 w-full py-4 ${
+          categorieNoCreate.includes(currentCategory) && "h-20"
         } `}
       >
-        <h2 className="text-5xl px-4">{capitalizeCategory(currentCategory)}</h2>
-        <span className="px-4">
-          {dateFormat(new Date(), " iiii',' d 'de' MMMM")}
-        </span>
+        <div className={`${!asideLeftIsVisible && "ml-8"}`}>
+          <h2 className="px-4 text-5xl">{capitalizeCategory(currentCategory)}</h2>
+          <span className="px-4">{dateFormat(new Date(), " iiii',' d 'de' MMMM")}</span>
+        </div>
 
         <div className="w-full px-4">
           {!categorieNoCreate.includes(currentCategory) && (
@@ -59,11 +72,9 @@ function Main({ setIsLoad }) {
         </div>
       </section>
 
-      {isOpenAddTask && (
-        <AddTask onAddTask={setIsOpenAddTask} setIsLoad={setIsLoad} />
-      )}
+      {isOpenAddTask && <AddTask onAddTask={setIsOpenAddTask} setIsLoad={setIsLoad} />}
 
-      <section className="w-full max-h-[calc(100%-9rem)] overflow-y-auto  p-4 ">
+      <section className="max-h-[calc(100%-9rem)] w-full overflow-y-auto p-4">
         <DisplayTasks tasksDisplay={tasksDisplay} />
       </section>
     </main>

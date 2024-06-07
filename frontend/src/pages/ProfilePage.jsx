@@ -44,12 +44,14 @@ function ProfilePage() {
   }, [dispatch, isLoad]);
 
   return (
-    <section className="w-full h-screen overflow-hidden ">
+    <section className="h-screen w-full overflow-hidden">
       <Header fullname={fullname} />
 
-      <section className="grid grid-cols-12 grid-rows-1 w-full h-[calc(100%-5rem)]  ">
+      <section className="relative grid h-[calc(100%-5rem)] w-full grid-cols-12 grid-rows-1">
         <AsideLeft />
+
         <Main setIsLoad={setIsLoad} />
+
         <AsideRight />
       </section>
     </section>

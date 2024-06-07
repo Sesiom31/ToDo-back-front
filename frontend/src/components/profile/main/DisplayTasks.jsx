@@ -3,13 +3,11 @@ import ListTask from "./ListTask";
 
 function DisplayTasks({ tasksDisplay }) {
   return (
-    <ul className="flex flex-col gap-2 w-full">
+    <ul className="flex w-full flex-col gap-2">
       {!tasksDisplay.length ? (
         <h3>No hay ninguna tarea</h3>
       ) : (
-        tasksDisplay.map((task) => (
-          <ListTask key={task._id || task} task={task} />
-        ))
+        tasksDisplay.map((task) => <ListTask key={task._id || task} task={task} />)
       )}
     </ul>
   );

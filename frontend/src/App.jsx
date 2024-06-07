@@ -7,12 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoadingSpinner from "./components/comp/LoadingSpinner.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  isAuthenticated,
-  startLoading,
-  endLoading,
-  startLogin,
-} from "./store/authSlice";
+import { isAuthenticated, startLoading, endLoading, startLogin } from "./store/authSlice";
 import { useEffect } from "react";
 import { verifyUserRequest } from "./api/user.request";
 
@@ -51,10 +46,7 @@ function App() {
         <Route
           path="/profile"
           element={
-            <ProtectedRoute
-              element={<ProfilePage />}
-              authenticated={authenticated}
-            />
+            <ProtectedRoute element={<ProfilePage />} authenticated={authenticated} />
           }
         />
         <Route path="*" element={<NotFoundPage />} />
