@@ -5,6 +5,8 @@ dotenv.config();
 const SECRET_JWT = process.env.SECRET_JWT;
 
 export const createToken = async (payload) => {
+  console.log('CREANDO EL TOKEN')
+
   try {
     const token = jwt.sign(payload, SECRET_JWT, { expiresIn: "1d" });
     console.log(token);

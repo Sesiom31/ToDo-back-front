@@ -10,8 +10,8 @@ const SECRET_JWT = process.env.SECRET_JWT;
 const COOKIE_NAME = "token";
 const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  samesite: "strict",
+  secure: process.env.NODE_ENV === "production",
+  samesite: "lax",
   maxAge: "3600000",
 };
 
@@ -20,12 +20,10 @@ export const registerUser = async (req, res) => {
     const { firstname, lastname, username, email, password } = req.body;
 
     let user = await User.findOne({ email });
-    if (user)
-      return res.status(400).json({ message: "Este email ya está en uso" });
+    if (user) return res.status(400).json({ message: "Este email ya está en uso" });
 
     user = await User.findOne({ username });
-    if (user)
-      return res.status(400).json({ message: "Este username ya está en uso" });
+    if (user) return res.status(400).json({ message: "Este username ya está en uso" });
 
     user = new User({
       firstname,
@@ -39,6 +37,7 @@ export const registerUser = async (req, res) => {
     const payload = { id: user.id };
 
     const token = await createToken(payload);
+    console.log("REGISTER");
     res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
 
     res.status(201).json({ message: "Usuario registrado exitosamente" });
@@ -50,21 +49,21 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  console.log('hola mundo')
+  console.log("LOGIN");
   try {
     const { username, email, password } = req.body;
     let user = await User.findOne({ username, email });
-    if (!user)
-      return res.status(404).json({ message: "Credenciales incorrectas" });
+    if (!user) return res.status(404).json({ message: "Credenciales incorrectas" });
 
     const isMatch = await user.comparePassword(password);
 
-    if (!isMatch)
-      return res.status(404).json({ message: "Credenciales incorrectas" });
+    if (!isMatch) return res.status(404).json({ message: "Credenciales incorrectas" });
 
     const payload = { id: user.id };
 
     const token = await createToken(payload);
+    console.log('LOGIN')
+
 
     res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
     res.status(201).json({ message: "Usuario logueado exitosamente" });
@@ -89,10 +88,15 @@ export const logoutUser = async (req, res) => {
 };
 
 export const verifyUser = async (req, res) => {
+  console.log('VERIFY 1')
+
   try {
     const { token } = req.cookies;
     if (!token) return res.status(401).json({ authenticated: false });
+  console.log('VERIFY 2')
+
     const decoded = jwt.verify(token, SECRET_JWT);
+    console.log('VERIFY 3')
 
     res.status(200).json({ authenticated: true, user: decoded });
   } catch (err) {
@@ -102,14 +106,21 @@ export const verifyUser = async (req, res) => {
 };
 
 export const profileUser = async (req, res) => {
+  console.log('PROFILE 1')
+
   try {
     const { id } = req.user;
     console.log("id: ", id);
     if (!id) return res.status(401).json({ message: "El usuario no existe" });
+  console.log('PROFILE 2')
+
     const matchUser = await User.findById(id);
     console.log(matchUser.fullname);
+    console.log('PROFILE 3')
 
     const tasks = await Task.find({ user: id });
+
+  console.log('PROFILE 4')
 
     res.status(200).json({
       id,
@@ -127,8 +138,7 @@ export const getCategories = async (req, res) => {
     const { id } = req.user;
     if (!id) return res.status(401).json({ message: "Usuario no encontrado" });
     const user = await User.findById(id);
-    if (!user)
-      return res.status(401).json({ message: "Usuario no encontrado" });
+    if (!user) return res.status(401).json({ message: "Usuario no encontrado" });
 
     const categories = user.categories;
     res.status(201).json({ categories });
@@ -158,8 +168,7 @@ export const deleteCategorie = async (req, res) => {
 
     const { categorie } = req.body;
 
-    if (!categorie)
-      return res.status(400).json({ message: "La ctageoría no existe" });
+    if (!categorie) return res.status(400).json({ message: "La ctageoría no existe" });
 
     await User.findByIdAndUpdate(id, { $pull: { categories: categorie } });
 
