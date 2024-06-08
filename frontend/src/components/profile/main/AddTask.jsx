@@ -83,11 +83,11 @@ function AddTask({ onAddTask, setIsLoad }) {
 
   return (
     <div
-      className="absolute inset-0 z-50 flex h-full w-full -translate-y-24 items-center justify-center bg-[#464545] bg-opacity-70 py-10"
+      className="absolute inset-0 z-[300] flex h-screen w-full -translate-y-24 items-center justify-center bg-[#464545] bg-opacity-70 py-10 "
       onClick={() => setIsOpenCalendar(false)}
     >
       <form
-        className="relative z-[60] flex h-[65%] w-[90%] flex-col items-start justify-between rounded-lg bg-gray-800 pb-4 pt-10"
+        className="relative z-[60] flex h-[65%] w-[90%] flex-col items-start justify-between rounded-lg bg-gray-800 pb-4 pt-10 md:w-[60%] md:h-[80%] lg:w-[45%]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <ButtonClose

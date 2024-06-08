@@ -36,7 +36,7 @@ function Main({ setIsLoad }) {
   const categorieNoCreate = ["importantes", "completadas"];
 
   return (
-    <main className="relative col-span-12 flex h-full flex-col items-start gap-4 bg-gray-700 md:col-span-9 lg:col-span-6">
+    <main className="relative col-span-12 flex h-full flex-col items-start gap-4 bg-gray-700 md:col-span-9 lg:col-span-6 md:static">
       <IconButton
         icon={faBars}
         htmlFor="open-aside"
