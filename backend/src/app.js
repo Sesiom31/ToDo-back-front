@@ -7,10 +7,14 @@ import path from "path";
 
 export const app = express();
 
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 const corsOptions = {
   origin:
     process.env.NODE_ENV === "production"
-      ? ["https://task-list-5cx9etgf6-sesiom31s-projects.vercel.app"]
+      ? ["https://task-list-mu-flame.vercel.app"]
       : ["http://localhost:5173"],
   credentials: true,
 };
