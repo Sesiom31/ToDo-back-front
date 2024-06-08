@@ -7,7 +7,7 @@ const startApp = async () => {
     await connectDb();
     app.listen(PORT, () => {
       console.log(
-        `El servidor está escuchando en el puerto http://localhost:${PORT}`
+        `El servidor está escuchando en el puerto ${PORT}`
       );
     });
   } catch (err) {

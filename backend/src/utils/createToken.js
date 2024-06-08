@@ -6,7 +6,7 @@ const SECRET_JWT = process.env.SECRET_JWT;
 
 export const createToken = async (payload) => {
   try {
-    const token = jwt.sign(payload, SECRET_JWT, { expiresIn: "1h" });
+    const token = jwt.sign(payload, SECRET_JWT, { expiresIn: "1d" });
     console.log(token);
     return token;
   } catch (err) {

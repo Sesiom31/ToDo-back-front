@@ -35,7 +35,7 @@ function RegisterForm() {
 
   return (
     <form
-      className="flex h-auto w-full flex-col items-center justify-center gap-10 p-2 px-6 md:w-[65%] lg:mt-4 lg:w-[90%] lg:gap-[1.6rem]"
+      className="flex h-auto w-full flex-col items-center justify-center gap-10 p-2 px-6 md:w-[85%] md:gap-6 lg:mt-4 lg:w-[90%] lg:gap-[1.6rem]"
       onSubmit={handleSubmit(onSubmit)}
     >
       <InputField

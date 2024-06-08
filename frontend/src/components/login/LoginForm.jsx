@@ -37,7 +37,7 @@ function LoginForm() {
 
   return (
     <form
-      className="flex h-auto w-full flex-col items-center justify-center gap-10 p-2 px-6 md:w-[65%] lg:mt-6 lg:w-[90%] lg:gap-[2rem]"
+      className="flex h-auto w-full flex-col items-center justify-center gap-10 p-2 px-6 md:w-[85%] md:gap-6 lg:mt-6 lg:w-[90%] lg:gap-[2rem]"
       onSubmit={handleSubmit(onSubmit)}
     >
       <InputField

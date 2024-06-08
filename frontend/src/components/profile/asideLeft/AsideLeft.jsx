@@ -41,7 +41,7 @@ function AsideLeft() {
     <aside
       className={`${
         asideLeftIsVisible ? "a-open-left" : "a-left"
-      } absolute left-0 top-0 z-[200] h-full w-[48%] bg-gray-800 py-4 sm:w-[33%] sm:px-3 md:relative md:col-span-2 md:w-full md:max-w-[18rem] lg:max-w-full lg:px-2`}
+      } absolute left-0 top-0 z-[200] h-full w-[48%] bg-gray-800 py-4 sm:w-[33%] sm:px-3 md:relative md:col-span-3 md:w-full md:min-w-[10rem] md:max-w-[18rem] lg:col-span-2 lg:max-w-full lg:px-2`}
     >
       <IconButton
         icon={faCircleArrowLeft}
