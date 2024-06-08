@@ -11,7 +11,7 @@ const COOKIE_NAME = "token";
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
-  samesite: "lax",
+  samesite: "none",
   maxAge: "3600000",
 };
 
