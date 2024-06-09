@@ -7,7 +7,7 @@ import { Navigate } from "react-router-dom";
 function LoginPage() {
   const authenticated = useSelector(isAuthenticated);
 
-  if (authenticated) return <Navigate to={"/profile"} />;
+  if (authenticated) return <Navigate to={"/profile"} replace />;
 
   return (
     <section className="flex h-screen w-full flex-col md:flex-row">
