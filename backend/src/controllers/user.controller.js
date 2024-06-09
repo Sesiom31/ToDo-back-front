@@ -10,9 +10,9 @@ const SECRET_JWT = process.env.SECRET_JWT;
 const COOKIE_NAME = "token";
 const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  samesite: "None",
-  maxAge: "3600000",
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "None",
+  maxAge: 1000 * 60 * 60 * 24,
 };
 
 export const registerUser = async (req, res) => {
