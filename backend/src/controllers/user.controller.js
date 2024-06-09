@@ -10,8 +10,8 @@ const SECRET_JWT = process.env.SECRET_JWT;
 const COOKIE_NAME = "token";
 const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: true,
-  samesite: "none",
+  secure: process.env.NODE_ENV === 'production',
+  samesite: "None",
   maxAge: "3600000",
 };
 
@@ -62,8 +62,7 @@ export const loginUser = async (req, res) => {
     const payload = { id: user.id };
 
     const token = await createToken(payload);
-    console.log('LOGIN')
-
+    console.log("LOGIN");
 
     res.cookie(COOKIE_NAME, token, COOKIE_OPTIONS);
     res.status(201).json({ message: "Usuario logueado exitosamente" });
@@ -88,15 +87,15 @@ export const logoutUser = async (req, res) => {
 };
 
 export const verifyUser = async (req, res) => {
-  console.log('VERIFY 1')
+  console.log("VERIFY 1");
 
   try {
     const { token } = req.cookies;
     if (!token) return res.status(401).json({ authenticated: false });
-  console.log('VERIFY 2')
+    console.log("VERIFY 2");
 
     const decoded = jwt.verify(token, SECRET_JWT);
-    console.log('VERIFY 3')
+    console.log("VERIFY 3");
 
     res.status(200).json({ authenticated: true, user: decoded });
   } catch (err) {
@@ -106,21 +105,21 @@ export const verifyUser = async (req, res) => {
 };
 
 export const profileUser = async (req, res) => {
-  console.log('PROFILE 1')
+  console.log("PROFILE 1");
 
   try {
     const { id } = req.user;
     console.log("id: ", id);
     if (!id) return res.status(401).json({ message: "El usuario no existe" });
-  console.log('PROFILE 2')
+    console.log("PROFILE 2");
 
     const matchUser = await User.findById(id);
     console.log(matchUser.fullname);
-    console.log('PROFILE 3')
+    console.log("PROFILE 3");
 
     const tasks = await Task.find({ user: id });
 
-  console.log('PROFILE 4')
+    console.log("PROFILE 4");
 
     res.status(200).json({
       id,

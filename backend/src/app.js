@@ -3,7 +3,6 @@ import userRouter from "./routes/userRoutes.js";
 import taskRouter from "./routes/taskRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import path from "path";
 
 export const app = express();
 
@@ -26,16 +25,6 @@ app.use(cookieParser());
 app.use("/api", userRouter);
 app.use("/api", taskRouter);
 
-// Servir archivos estáticos en producción
-/* if (process.env.NODE_ENV === 'production') {
-  const __dirname = path.resolve();
-  app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
-  });
-}
- */
 
 // Middleware para manejo de errores
 app.use((err, req, res, next) => {
