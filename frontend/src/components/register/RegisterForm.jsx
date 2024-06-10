@@ -16,6 +16,7 @@ function RegisterForm() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm({
     resolver: yupResolver(registerSchema),
   });
@@ -28,6 +29,21 @@ function RegisterForm() {
       navigate("/profile");
     } catch (err) {
       console.error("Error en el registro", err);
+      if (err.response && err.response.data) {
+        const { message } = err.response.data;
+        if (message.includes("username")) {
+          setError("username", {
+            type: "manual",
+            message: "El nombre de usuario ya está en uso",
+          });
+        }
+        if (message.includes("email")) {
+          setError("email", {
+            type: "manual",
+            message: "El correo electrónico ya está en uso",
+          });
+        }
+      }
     } finally {
       dispatch(endLoading());
     }
@@ -35,7 +51,7 @@ function RegisterForm() {
 
   return (
     <form
-      className="flex h-auto w-full flex-col items-center justify-center gap-10 p-2 px-6 md:w-[85%] md:gap-6 lg:mt-4 lg:w-[90%] lg:gap-[1.6rem]"
+      className="flex h-auto w-full flex-col items-center justify-center gap-8 p-2 px-6 md:w-[85%] md:gap-7 lg:mt-4 lg:w-[90%] lg:gap-[1.6rem]"
       onSubmit={handleSubmit(onSubmit)}
     >
       <InputField
@@ -93,10 +109,10 @@ function RegisterForm() {
         register={register}
         error={errors.confirmPassword}
       />
-      <div className="flex w-full flex-col items-center justify-center gap-4 lg:-mt-5">
+      <div className="flex w-full flex-col items-center justify-center gap-3 lg:-mt-5">
         <button
           type="submit"
-          className="mt-12 w-[40%] rounded-md border-none bg-green-600 px-2 py-1 text-[1.1rem] text-white outline-none hover:bg-green-500 focus:bg-green-700"
+          className="mt-8 w-[40%] rounded-md border-none bg-green-600 px-2 py-1 text-[1.1rem] text-white outline-none hover:bg-green-500 focus:bg-green-700"
         >
           Registrarse
         </button>

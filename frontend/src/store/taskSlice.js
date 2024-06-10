@@ -27,6 +27,13 @@ const tasksSlice = createSlice({
     setSearch: (state, action) => {
       state.search = action.payload;
     },
+    clearTasks: (state) => {
+      state.tasks = [];
+      state.currentTask = {};
+      state.categories = [];
+      state.currentCategory = "hoy";
+      state.search = "";
+    },
   },
 });
 
@@ -36,7 +43,13 @@ export const getCategories = (state) => state.tasks.categories;
 export const getCurrentCategory = (state) => state.tasks.currentCategory;
 export const getSearch = (state) => state.tasks.search;
 
-export const { setTasks, setCurrentTask, setCategories, setCurrentCategory, setSearch } =
-  tasksSlice.actions;
+export const {
+  setTasks,
+  setCurrentTask,
+  setCategories,
+  setCurrentCategory,
+  setSearch,
+  clearTasks,
+} = tasksSlice.actions;
 
 export default tasksSlice.reducer;

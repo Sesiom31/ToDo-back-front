@@ -18,10 +18,12 @@ import { getCurrentCategory, getTasks, setTasks } from "../../../store/taskSlice
 import { dateFormat } from "../../../utils/configString";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import ButtonAdd from "../../../ui/ButtonAdd";
+import { useSnackbar } from "notistack";
 
 function AddTask({ onAddTask, setIsLoad }) {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [taskIsFocus, setTaskIsFocus] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const userId = useSelector(getUser); /* userId */
   const currentCategorie = useSelector(getCurrentCategory);
@@ -72,10 +74,18 @@ function AddTask({ onAddTask, setIsLoad }) {
     try {
       onAddTask(false);
       dispatch(setTasks([...tasks, newTask]));
+      enqueueSnackbar("Tarea creada exitosamente", {
+        variant: "success",
+        autoHideDuration: 2000,
+      });
       await createTaskRequest(newTask);
     } catch (err) {
       console.log(err);
       dispatch(setTasks(originalTasks));
+      enqueueSnackbar("Error al crear la tarea", {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
     } finally {
       setIsLoad(true);
     }
@@ -83,11 +93,11 @@ function AddTask({ onAddTask, setIsLoad }) {
 
   return (
     <div
-      className="absolute inset-0 z-[300] flex h-screen w-full -translate-y-24 items-center justify-center bg-[#464545] bg-opacity-70 py-10 "
+      className="absolute inset-0 z-[300] flex h-screen w-full -translate-y-24 items-center justify-center bg-[#464545] bg-opacity-70 py-10"
       onClick={() => setIsOpenCalendar(false)}
     >
       <form
-        className="relative z-[60] flex h-[65%] w-[90%] flex-col items-start justify-between rounded-lg bg-gray-800 pb-4 pt-10 md:w-[60%] md:h-[80%] lg:w-[45%]"
+        className="relative z-[60] flex h-[65%] w-[90%] flex-col items-start justify-between rounded-lg bg-gray-800 pb-4 pt-10 md:h-[80%] md:w-[60%] lg:w-[45%]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <ButtonClose
@@ -114,7 +124,7 @@ function AddTask({ onAddTask, setIsLoad }) {
 
             <DescriptionField register={register} errors={errors} />
 
-            <div className="relative mt-1 w-full">
+            <div className="relative mt-3 w-full">
               <InfoCalendar
                 dateFormat={dateFormat(dateSet, "iiii d 'de' MMMM 'del' yyyy")}
                 onClick={(e) => {
@@ -147,7 +157,7 @@ function AddTask({ onAddTask, setIsLoad }) {
         <div className="flex h-12 w-full items-center justify-between px-4 py-0.5">
           <ButtonAdd
             name="Agregar paso"
-            classNameButton="bg-gray-700 p-2 rounded-md w-40 h-full hover:bg-gray-600"
+            classNameButton="bg-gray-700 p-1 rounded-md max-w-40 w-32 h-full hover:bg-gray-600"
             onClick={() => {
               append({ description: "" });
             }}
@@ -157,7 +167,7 @@ function AddTask({ onAddTask, setIsLoad }) {
             name="Crear tarea"
             type="submit"
             classNameButton={
-              "bg-green-700 p-2 rounded-md w-40 self-end h-full hover:bg-green-600"
+              "bg-green-700 p-2 rounded-md max-w-40 w-32 self-end h-full hover:bg-green-600"
             }
           />
         </div>

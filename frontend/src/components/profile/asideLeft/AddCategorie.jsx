@@ -42,8 +42,11 @@ function AddCategorie() {
       ) : (
         <div className="w-full">
           <input
-            className="mt-10 w-full rounded-md bg-gray-500 p-1 text-white outline-none focus:ring-1 focus:ring-sky-500"
+            className="mt-10 w-full rounded-md bg-gray-500 p-1 px-2 text-white outline-none focus:ring-1 focus:ring-sky-500 placeholder:text-sm"
+            placeholder="Nueva categoria"
+            autoComplete="off"
             type="text"
+            autoFocus
             {...register("categorie", {
               required: { value: true, message: "El nombre es requerido" },
               min: { value: 3, message: "Al menos 3 caracteres" },

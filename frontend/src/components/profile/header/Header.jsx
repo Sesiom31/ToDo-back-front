@@ -11,7 +11,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { capitalize } from "../../../utils/configString";
 import IconButton from "../../../ui/IconButton";
-import { getSearch, setSearch } from "../../../store/taskSlice";
+import { clearTasks, getSearch, setSearch } from "../../../store/taskSlice";
 
 function Header({ fullname }) {
   const [isFocus, setIsFocus] = useState(false);
@@ -23,9 +23,10 @@ function Header({ fullname }) {
   const handleLogout = async () => {
     try {
       dispatch(startLoading());
+      dispatch(clearUser());
+      dispatch(clearTasks())
       await logoutUserRequest();
       navigate("/login");
-      dispatch(clearUser());
     } catch (err) {
       console.error("Error en el cierre de sesión", err);
     } finally {

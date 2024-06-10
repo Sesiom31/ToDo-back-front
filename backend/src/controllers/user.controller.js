@@ -11,7 +11,7 @@ const COOKIE_NAME = "token";
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "None",
+  sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
   maxAge: 1000 * 60 * 60 * 24,
 };
 
