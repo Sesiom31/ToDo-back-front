@@ -51,7 +51,7 @@ function RegisterForm() {
 
   return (
     <form
-      className="flex h-auto w-full flex-col items-center justify-center gap-8 p-2 px-6 md:w-[85%] md:gap-7 lg:mt-4 lg:w-[90%] lg:gap-[1.6rem]"
+      className="flex h-auto w-full flex-col items-center justify-start gap-8 p-4 px-6 md:w-[85%] md:gap-7 lg:mt-4 lg:w-[90%] lg:gap-[1.6rem]"
       onSubmit={handleSubmit(onSubmit)}
     >
       <InputField
@@ -109,7 +109,7 @@ function RegisterForm() {
         register={register}
         error={errors.confirmPassword}
       />
-      <div className="flex w-full flex-col items-center justify-center gap-3 lg:-mt-5">
+      <div className="flex w-full flex-col mt-2 items-center justify-center gap-3 lg:mt-4">
         <button
           type="submit"
           className="mt-8 w-[40%] rounded-md border-none bg-green-600 px-2 py-1 text-[1.1rem] text-white outline-none hover:bg-green-500 focus:bg-green-700"

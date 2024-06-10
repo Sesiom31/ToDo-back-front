@@ -40,7 +40,7 @@ function LoginForm() {
 
   return (
     <form
-      className="flex h-auto w-full flex-col items-center justify-center gap-10 p-2 px-6 md:w-[85%] md:gap-6 lg:mt-6 lg:w-[90%] lg:gap-[2rem]"
+      className="flex h-full w-full flex-col items-center justify-center lg:justify-start gap-10 p-4 px-6 md:w-[85%] md:gap-6 lg:mt-2 lg:w-[90%] lg:gap-[1.5rem]"
       onSubmit={handleSubmit(onSubmit)}
     >
       <InputField
@@ -71,14 +71,14 @@ function LoginForm() {
         error={errors.password}
       />
 
-      <span className="mt-8 flex h-8 w-full items-center justify-center text-sm tracking-wide text-pink-500">
+      <span className="mt-8 flex h-8 w-full items-center justify-center text-sm tracking-wide text-pink-500 md:mb-1 md:mt-3">
         {errorCredentials}
       </span>
 
-      <div className="flex w-full flex-col items-center justify-center gap-4">
+      <div className="flex w-full flex-col items-center justify-center gap-4 md:-mt-4 lg:justify-start">
         <button
           type="submit"
-          className="mt-12 w-[40%] rounded-md border-none bg-green-600 px-2 py-1 text-[1.1rem] text-white outline-none hover:bg-green-500 focus:bg-green-700 sm:mt-14"
+          className="mt-2 w-[40%] rounded-md border-none bg-green-600 px-2 py-1 text-[1.1rem] text-white outline-none hover:bg-green-500 focus:bg-green-700 lg:mt-1"
         >
           Iniciar sesión
         </button>

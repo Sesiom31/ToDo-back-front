@@ -4,11 +4,25 @@ import { deleteTask } from "../../../utils/updateFunc";
 import { useSelector, useDispatch } from "react-redux";
 import { getCurrentTask, getTasks } from "../../../store/taskSlice";
 import { setAsideRightIsVisible } from "../../../store/visibleSlice";
+import { useEffect, useState } from "react";
 
 function HeaderAside() {
+  const [isLg, setIsLg] = useState(false);
   const tasks = useSelector(getTasks);
   const currentTask = useSelector(getCurrentTask);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width:1024px)");
+    const handleMediaQuery = (e) => {
+      setIsLg(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleMediaQuery);
+    setIsLg(mediaQuery.matches);
+
+    return () => mediaQuery.removeEventListener("change", handleMediaQuery);
+  }, []);
 
   return (
     <div className="absolute top-0 z-[220] flex h-14 w-full justify-between bg-gray-800 px-3 py-1 sm:pr-12 lg:justify-end">
@@ -28,8 +42,10 @@ function HeaderAside() {
         className="text-base text-orange-500 hover:text-orange-300"
         title="Eliminar tarea"
         onClick={() => {
-          dispatch(setAsideRightIsVisible(false));
           deleteTask(tasks, currentTask, dispatch);
+          if (!isLg) {
+            dispatch(setAsideRightIsVisible(false));
+          }
         }}
       />
     </div>

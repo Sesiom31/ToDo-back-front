@@ -12,7 +12,7 @@ function LoginPage() {
   return (
     <section className="flex h-screen w-full flex-col md:flex-row">
       <Home frase={"Task"} />
-      <section className="flex h-full w-full flex-col items-center justify-start gap-6 overflow-y-auto bg-gradient-to-br from-slate-800 to-gray-950 pt-12 sm:gap-8 sm:pt-16 md:gap-12 md:w-full lg:w-[60%] lg:pt-10 xl:justify-center">
+      <section className="flex h-full w-full flex-col items-center justify-start gap-6 overflow-y-auto bg-gradient-to-br from-slate-800 to-gray-950 pt-12 sm:gap-8 sm:pt-16 md:w-full md:gap-10 lg:w-[60%] lg:pt-10 lg:gap-0 xl:justify-center">
         <h2 className="mb-6 text-4xl text-white lg:mt-10">Iniciar sesión</h2>
         <LoginForm />
       </section>

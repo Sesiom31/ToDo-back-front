@@ -14,7 +14,7 @@ function RegisterPage() {
       <Home frase={"Task"} />
 
       <section className="flex h-full w-full flex-col items-center justify-start gap-2 overflow-y-auto bg-gradient-to-br from-slate-800 to-gray-950 pt-12 md:h-full lg:w-[60%] lg:gap-0 lg:overflow-hidden lg:pt-0 xl:justify-center">
-        <h2 className="mb-6 text-4xl text-white lg:mt-10">Crear cuenta</h2>
+        <h2 className="mb-6 text-4xl text-white lg:mt-8 lg:mb-2">Crear cuenta</h2>
         <RegisterForm />
       </section>
     </section>
