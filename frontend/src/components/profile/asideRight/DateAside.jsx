@@ -29,7 +29,9 @@ function DateAside({
               className="flex h-4 w-[24px] items-center text-gray-500 outline-none"
             />
 
-            {updateDateIsOpen && <Calendar control={control} name="dateEnd" />}
+            {updateDateIsOpen && (
+              <Calendar control={control} name="dateEnd" isUpdate={true} />
+            )}
           </div>
         )}
 

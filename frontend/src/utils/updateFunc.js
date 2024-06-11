@@ -6,35 +6,40 @@ import {
 } from "../api/task.request";
 
 /* funcion para los iconos complete e important */
-export const updateField = async (
-  taskId,
-  field,
-  newValue,
-  dispatch,
-  tasks,
-  currentTask = {},
-) => {
+export const updateField = async (field, newValue, dispatch, tasks, currentTask) => {
   const originalTasks = [...tasks];
-  console.log(taskId, field, newValue);
+  let newCurrentTask = { ...currentTask };
 
   try {
     const updatedTasks = tasks.map((task) => {
-      if (task._id === taskId) {
+      if (task._id === currentTask._id) {
         if (field === "isImportant") {
-          return {
-            ...task,
+          const oT = {
             isImportant: newValue,
             belongsCategories: newValue
               ? [...task.belongsCategories, "importantes"]
               : task.belongsCategories.filter((t) => t !== "importantes"),
           };
-        } else if (field === "isComplete") {
+
+          newCurrentTask = { ...newCurrentTask, ...oT };
+
           return {
             ...task,
+            ...oT,
+          };
+        } else if (field === "isComplete") {
+          const oT = {
             isComplete: newValue,
             belongsCategories: newValue
               ? [...task.belongsCategories, "completadas"]
               : task.belongsCategories.filter((t) => t !== "completadas"),
+          };
+
+          newCurrentTask = { ...newCurrentTask, ...oT };
+
+          return {
+            ...task,
+            ...oT,
           };
         } else {
           return {
@@ -48,9 +53,13 @@ export const updateField = async (
     });
 
     dispatch(setTasks(updatedTasks));
-    dispatch(setCurrentTask(updatedTasks.find((t) => t._id === taskId)));
-    const res = await updateFieldTaskRequest({ taskId, field, newValue });
-    console.log(res);
+    dispatch(setCurrentTask(newCurrentTask));
+
+    await updateFieldTaskRequest({
+      taskId: currentTask._id,
+      field,
+      newValue,
+    });
   } catch (err) {
     console.log(err);
     dispatch(setTasks(originalTasks));

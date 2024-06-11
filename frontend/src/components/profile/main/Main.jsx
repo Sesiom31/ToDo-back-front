@@ -36,7 +36,7 @@ function Main({ setIsLoad }) {
   const categorieNoCreate = ["importantes", "completadas"];
 
   return (
-    <main className="relative col-span-12 flex h-full flex-col items-start gap-4 bg-gray-700 md:col-span-9 lg:col-span-6 md:static">
+    <main className="relative col-span-12 flex h-full flex-col items-start justify-start gap-4 bg-gray-700 md:static md:col-span-9 lg:col-span-6">
       <IconButton
         icon={faBars}
         htmlFor="open-aside"
@@ -50,16 +50,16 @@ function Main({ setIsLoad }) {
         }}
       />
       <section
-        className={`h-36 w-full py-4 ${
-          categorieNoCreate.includes(currentCategory) && "h-20"
-        } `}
+        className={` ${
+          categorieNoCreate.includes(currentCategory) && "sm:h-20 md:h-24"
+        } h-40 w-full py-3`}
       >
-        <div className={`${!asideLeftIsVisible && "ml-8"}`}>
+        <div className={`${!asideLeftIsVisible && "ml-8 "} flex flex-col gap-2`}>
           <h2 className="px-4 text-5xl">{capitalizeCategory(currentCategory)}</h2>
           <span className="px-4">{dateFormat(new Date(), " iiii',' d 'de' MMMM")}</span>
         </div>
 
-        <div className="w-full px-4">
+        <div className="h-full w-full px-4">
           {!categorieNoCreate.includes(currentCategory) && (
             <ButtonAdd
               name="Agregar una nueva tarea"

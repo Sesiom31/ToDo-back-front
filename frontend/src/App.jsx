@@ -1,15 +1,16 @@
 import "./App.css";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoadingSpinner from "./components/comp/LoadingSpinner.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { isAuthenticated, startLoading, endLoading, startLogin } from "./store/authSlice";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { verifyUserRequest } from "./api/user.request";
+
+const LoginPage = lazy(() => import("./pages/LoginPage.jsx"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage.jsx"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage.jsx"));
 
 function App() {
   const authenticated = useSelector(isAuthenticated);
@@ -35,22 +36,23 @@ function App() {
 
   return (
     <BrowserRouter>
-      <LoadingSpinner />
-      <Routes>
-        <Route
-          path="/"
-          element={<Navigate to={authenticated ? "/profile" : "/login"} />}
-        />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute element={<ProfilePage />} authenticated={authenticated} />
-          }
-        />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Routes>
+          <Route
+            path="/"
+            element={<Navigate to={authenticated ? "/profile" : "/login"} />}
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute element={<ProfilePage />} authenticated={authenticated} />
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

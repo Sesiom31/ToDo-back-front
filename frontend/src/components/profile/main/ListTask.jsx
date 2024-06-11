@@ -50,9 +50,7 @@ function ListTask({ task }) {
           className={`${task.isComplete ? "text-orange-500" : "text-gray-400"} text-xs`}
           onClick={(e) => {
             e.stopPropagation();
-            dispatch(setCurrentTask(task));
-
-            updateField(task._id, "isComplete", !task.isComplete, dispatch, tasks);
+            updateField("isComplete", !task.isComplete, dispatch, tasks, task);
           }}
         />
 
@@ -76,8 +74,7 @@ function ListTask({ task }) {
         } pr-2 text-sm`}
         onClick={(e) => {
           e.stopPropagation();
-          dispatch(setCurrentTask(task));
-          updateField(task._id, "isImportant", !task.isImportant, dispatch, tasks);
+          updateField("isImportant", !task.isImportant, dispatch, tasks, task);
         }}
       />
     </li>

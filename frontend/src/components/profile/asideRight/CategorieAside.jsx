@@ -22,11 +22,11 @@ function CategorieAside() {
           onClick={(e) => {
             e.stopPropagation();
             updateField(
-              currentTask._id,
               "isComplete",
               !currentTask.isComplete,
               dispatch,
               tasks,
+              currentTask,
             );
           }}
         />
@@ -44,11 +44,11 @@ function CategorieAside() {
             e.stopPropagation();
 
             updateField(
-              currentTask._id,
               "isImportant",
               !currentTask.isImportant,
               dispatch,
               tasks,
+              currentTask,
             );
           }}
         />

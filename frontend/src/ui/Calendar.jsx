@@ -2,9 +2,13 @@ import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentTask, setCurrentTask } from "../store/taskSlice";
 
-function Calendar({ control, name, start = new Date() }) {
+function Calendar({ control, name, start = new Date(), isUpdate = false }) {
   const [startDate, setStartDate] = useState(start);
+  const dispatch = useDispatch();
+  const currentTask = useSelector(getCurrentTask);
 
   return (
     <div
@@ -23,6 +27,9 @@ function Calendar({ control, name, start = new Date() }) {
             onChange={(date) => {
               setStartDate(date);
               field.onChange(date);
+              if (isUpdate) {
+                dispatch(setCurrentTask({ ...currentTask, dateEnd: date.toISOString() }));
+              }
             }}
           />
         )}
@@ -35,5 +42,6 @@ Calendar.propTypes = {
   control: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   start: PropTypes.string,
+  isUpdate: PropTypes.bool,
 };
 export default Calendar;

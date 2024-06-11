@@ -21,9 +21,9 @@ function AddCategorie() {
     const categoriesOriginal = [...categories];
 
     try {
+      setAddIsOpen(false);
       dispatch(setCategories([...categories, data.categorie]));
       await addCategoryRequest(data);
-      setAddIsOpen(false);
       reset();
     } catch (err) {
       console.log(err);

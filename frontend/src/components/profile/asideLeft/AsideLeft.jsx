@@ -19,7 +19,6 @@ function AsideLeft() {
   const [isMd, setIsMd] = useState(false);
 
   const categoriesFormat = prepareCategories(categories, tasks);
-  console.log(asideLeftIsVisible);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width : 768px)");
