@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginUserRequest } from "../../api/user.request";
 import { useDispatch } from "react-redux";
-import { endLoading, startLoading, startLogin } from "../../store/authSlice";
+import { playSpinner, startLogin } from "../../store/authSlice";
 import { useState } from "react";
 
 function LoginForm() {
@@ -24,23 +24,19 @@ function LoginForm() {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
-      dispatch(startLoading());
-      const res = await loginUserRequest(data);
-      console.log(res);
+      dispatch(playSpinner());
+      await loginUserRequest(data);
       dispatch(startLogin());
       navigate("/profile");
     } catch (err) {
       console.error("Error al iniciar sesión", err);
       setErrorCredentials(err.response.data.message);
-    } finally {
-      dispatch(endLoading());
     }
   };
 
   return (
     <form
-      className="flex h-full w-full flex-col items-center justify-center lg:justify-start gap-10 p-4 px-6 md:w-[85%] md:gap-6 lg:mt-2 lg:w-[90%] lg:gap-[1.5rem]"
+      className="flex h-full w-full flex-col items-center justify-center gap-10 p-4 px-6 md:w-[85%] md:gap-6 lg:mt-2 lg:w-[90%] lg:justify-start lg:gap-[1.5rem]"
       onSubmit={handleSubmit(onSubmit)}
     >
       <InputField

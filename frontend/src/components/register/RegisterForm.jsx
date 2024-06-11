@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import registerSchema from "../../schemas/register.schema";
 import { registerUserRequest } from "../../api/user.request";
 import { useDispatch } from "react-redux";
-import { startLoading, endLoading, startLogin } from "../../store/authSlice";
+import { playSpinner, startLogin} from "../../store/authSlice";
 
 function RegisterForm() {
   const dispatch = useDispatch();
@@ -23,10 +23,10 @@ function RegisterForm() {
 
   const onSubmit = async (data) => {
     try {
-      dispatch(startLoading());
-      await registerUserRequest(data);
+      dispatch(playSpinner());
       dispatch(startLogin());
       navigate("/profile");
+      await registerUserRequest(data);
     } catch (err) {
       console.error("Error en el registro", err);
       if (err.response && err.response.data) {
@@ -44,8 +44,6 @@ function RegisterForm() {
           });
         }
       }
-    } finally {
-      dispatch(endLoading());
     }
   };
 
@@ -109,7 +107,7 @@ function RegisterForm() {
         register={register}
         error={errors.confirmPassword}
       />
-      <div className="flex w-full flex-col mt-2 items-center justify-center gap-3 lg:mt-4">
+      <div className="mt-2 flex w-full flex-col items-center justify-center gap-3 lg:mt-4">
         <button
           type="submit"
           className="mt-8 w-[40%] rounded-md border-none bg-green-600 px-2 py-1 text-[1.1rem] text-white outline-none hover:bg-green-500 focus:bg-green-700"

@@ -1,12 +1,17 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Home from "../components/comp/Home";
 import RegisterForm from "../components/register/RegisterForm";
-import { isAuthenticated } from "../store/authSlice";
+import { isAuthenticated, stopSpinner } from "../store/authSlice";
 import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function RegisterPage() {
   const authenticated = useSelector(isAuthenticated);
+  const dispatch= useDispatch()
 
+  useEffect(()=>{
+    dispatch(stopSpinner())
+  },[dispatch])
   if (authenticated) return <Navigate to={"/profile"} />;
 
   return (

@@ -4,7 +4,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { startLoading, endLogin, clearUser, endLoading } from "../../../store/authSlice";
+import { endLogin, clearUser, playSpinner, stopSpinner } from "../../../store/authSlice";
 import { logoutUserRequest } from "../../../api/user.request";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -22,16 +22,16 @@ function Header({ fullname }) {
 
   const handleLogout = async () => {
     try {
-      dispatch(startLoading());
+      dispatch(playSpinner());
       dispatch(clearUser());
-      dispatch(clearTasks())
+      dispatch(clearTasks());
       await logoutUserRequest();
       navigate("/login");
     } catch (err) {
       console.error("Error en el cierre de sesión", err);
     } finally {
       dispatch(endLogin());
-      dispatch(endLoading());
+      dispatch(stopSpinner());
     }
   };
 

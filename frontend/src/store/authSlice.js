@@ -4,15 +4,15 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: "",
-    isLoading: false,
+    spinner: false,
     authenticated: false,
   },
   reducers: {
-    startLoading: (state) => {
+    playSpinner: (state) => {
       state.isLoading = true;
     },
 
-    endLoading: (state) => {
+    stopSpinner: (state) => {
       state.isLoading = false;
     },
 
@@ -34,11 +34,11 @@ const authSlice = createSlice({
   },
 });
 
-export const { startLoading, endLoading, startLogin, endLogin, setUser, clearUser } =
+export const { playSpinner, stopSpinner, startLogin, endLogin, setUser, clearUser } =
   authSlice.actions;
 
 export const getUser = (state) => state.auth.user;
-export const isLoading = (state) => state.auth.isLoading;
+export const getSpinner = (state) => state.auth.spinner;
 export const isAuthenticated = (state) => state.auth.authenticated;
 
 export default authSlice.reducer;

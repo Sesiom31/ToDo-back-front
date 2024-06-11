@@ -29,7 +29,6 @@ function AsideRight() {
   const dispatch = useDispatch();
   const asideRef = useRef();
 
-
   const {
     register,
     handleSubmit,

@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { setUser, startLoading, endLoading } from "../store/authSlice";
+import { setUser, stopSpinner } from "../store/authSlice";
 import Header from "../components/profile/header/Header";
 import Main from "../components/profile/main/Main";
 import AsideLeft from "../components/profile/asideLeft/AsideLeft";
@@ -14,14 +14,8 @@ function ProfilePage() {
   const [isLoad, setIsLoad] = useState(false);
 
   useEffect(() => {
-    try {
-      setIsLoad(true);
-      dispatch(startLoading());
-    } catch (err) {
-      console.log(err);
-    } finally {
-      dispatch(endLoading());
-    }
+    dispatch(stopSpinner());
+    setIsLoad(true);
   }, [dispatch]);
 
   useEffect(() => {
