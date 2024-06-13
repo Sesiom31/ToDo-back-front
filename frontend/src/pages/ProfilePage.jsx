@@ -7,16 +7,12 @@ import AsideLeft from "../components/profile/asideLeft/AsideLeft";
 import AsideRight from "../components/profile/asideRight/AsideRight";
 import { profileUserRequest } from "../api/user.request";
 import { setCategories, setTasks } from "../store/taskSlice";
+0;
 
 function ProfilePage() {
+  console.log("PROFILE");
   const [fullname, setFullname] = useState("");
   const dispatch = useDispatch();
-  const [isLoad, setIsLoad] = useState(false);
-
-  useEffect(() => {
-    dispatch(stopSpinner());
-    setIsLoad(true);
-  }, [dispatch]);
 
   useEffect(() => {
     const start = async () => {
@@ -24,18 +20,17 @@ function ProfilePage() {
         const res = await profileUserRequest();
         setFullname(await res.fullname);
         dispatch(setUser(await res.id));
-        dispatch(setTasks(res.tasks));
-        dispatch(setCategories(res.categories));
+        dispatch(setTasks(await res.tasks));
+        dispatch(setCategories(await res.categories));
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoad(false);
+        dispatch(stopSpinner());
       }
     };
-    if (isLoad) {
-      start();
-    }
-  }, [dispatch, isLoad]);
+
+    start();
+  }, [dispatch]);
 
   return (
     <section className="h-screen w-full overflow-hidden">
@@ -44,7 +39,7 @@ function ProfilePage() {
       <section className="relative grid h-[calc(100%-5rem)] w-full grid-cols-12 grid-rows-1">
         <AsideLeft />
 
-        <Main setIsLoad={setIsLoad} />
+        <Main />
 
         <AsideRight />
       </section>

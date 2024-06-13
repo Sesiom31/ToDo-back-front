@@ -28,7 +28,7 @@ function Calendar({ control, name, start = new Date(), isUpdate = false }) {
               setStartDate(date);
               field.onChange(date);
               if (isUpdate) {
-                dispatch(setCurrentTask({ ...currentTask, dateEnd: date.toISOString() }));
+                console.log("clic Calendar");
               }
             }}
           />

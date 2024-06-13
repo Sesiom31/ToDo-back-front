@@ -4,6 +4,7 @@ import {
   setCurrentCategory,
   setCategories,
   getCategories,
+  getCurrentCategory,
 } from "../../../store/taskSlice";
 import { capitalizeCategory } from "../../../utils/configString";
 import IconButton from "../../../ui/IconButton";
@@ -13,12 +14,16 @@ import { deleteCategorieRequest } from "../../../api/user.request";
 function ListCategorie({ cat }) {
   const dispatch = useDispatch();
   const categories = useSelector(getCategories);
+  const currentCategorie = useSelector(getCurrentCategory);
 
   const noDeleteCategories = ["hoy", "importantes", "completadas"];
 
   const onDeleteCategorie = async (categorie) => {
     const originalCategories = [...categories];
     try {
+      dispatch(
+        setCurrentCategory(categorie === currentCategorie ? "hoy" : currentCategorie),
+      );
       dispatch(setCategories(categories.filter((c) => c !== categorie)));
       await deleteCategorieRequest({ categorie });
     } catch (err) {
@@ -49,7 +54,7 @@ function ListCategorie({ cat }) {
             title="eliminar"
           />
         )}
-        <span>{cat.count}</span>
+        <span className="text-sm">{cat.count}</span>
       </div>
     </li>
   );

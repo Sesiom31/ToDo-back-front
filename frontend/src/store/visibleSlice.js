@@ -2,19 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const visibleSlice = createSlice({
   name: "visible",
-  initialState: { asideLeftIsVisible: false, asideRightIsVisible: false },
+  initialState: { classLeft: "a-left", classRight: "a-right" },
   reducers: {
-    setAsideLeftIsVisible: (state, action) => {
-      state.asideLeftIsVisible = action.payload;
+    setClassLeft: (state, action) => {
+      state.classLeft = action.payload;
     },
-    setAsideRightIsVisible: (state, action) => {
-      state.asideRightIsVisible = action.payload;
+    setClassRight: (state, action) => {
+      state.classRight = action.payload;
     },
   },
 });
 
-export const getAsideLeftIsVisible = (state) => state.visible.asideLeftIsVisible;
-export const getAsideRightIsVisible = (state) => state.visible.asideRightIsVisible;
+export const getClassLeft = (state) => state.visible.classLeft;
+export const getClassRight = (state) => state.visible.classRight;
 
-export const { setAsideLeftIsVisible, setAsideRightIsVisible } = visibleSlice.actions;
+export const { setClassLeft, setClassRight } = visibleSlice.actions;
 export default visibleSlice.reducer;

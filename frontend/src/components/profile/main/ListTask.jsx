@@ -1,46 +1,54 @@
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, setCurrentTask } from "../../../store/taskSlice";
-import { updateField } from "../../../utils/updateFunc";
+import { updateIconsListTask } from "../../../utils/updateFunc";
 import { faCircleCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 import { capitalizeCategory } from "../../../utils/configString";
 import { dateFormat } from "../../../utils/configString";
 import IconButton from "../../../ui/IconButton";
-import {
-  setAsideLeftIsVisible,
-  setAsideRightIsVisible,
-} from "../../../store/visibleSlice";
+import { setClassLeft, setClassRight } from "../../../store/visibleSlice";
 import { useState, useEffect } from "react";
 
 function ListTask({ task }) {
   const dispatch = useDispatch();
   const tasks = useSelector(getTasks);
   const [isMd, setIsMd] = useState(false);
+  const [isLg, setIsLg] = useState(false);
 
   const handleTaskClick = () => {
+    console.log("click");
     dispatch(setCurrentTask(task));
-    dispatch(setAsideRightIsVisible(true));
+
     if (!isMd) {
-      dispatch(setAsideLeftIsVisible(false));
+      dispatch(setClassLeft("a-left"));
+    }
+    if (!isLg) {
+      dispatch(setClassRight("a-open-right"));
     }
   };
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width : 768px)");
+    const mediaQueryMd = window.matchMedia("(min-width: 768px)");
+    const mediaQueryLg = window.matchMedia("(min-width: 1024px)");
 
-    const handleMediaQuery = (e) => {
-      setIsMd(e.matches);
+    const handleMediaQueryMd = (e) => setIsMd(e.matches);
+    const handleMediaQueryLg = (e) => setIsLg(e.matches);
+
+    mediaQueryMd.addEventListener("change", handleMediaQueryMd);
+    mediaQueryLg.addEventListener("change", handleMediaQueryLg);
+
+    setIsMd(mediaQueryMd.matches);
+    setIsLg(mediaQueryLg.matches);
+
+    return () => {
+      mediaQueryMd.removeEventListener("change", handleMediaQueryMd);
+      mediaQueryLg.removeEventListener("change", handleMediaQueryLg);
     };
-
-    mediaQuery.addEventListener("change", handleMediaQuery);
-    setIsMd(mediaQuery.matches);
-
-    return () => mediaQuery.removeEventListener("change", handleMediaQuery);
   }, []);
 
   return (
     <li
-      className="flex w-full items-center justify-between rounded-md border-none bg-gray-800 p-2 py-3 ring-1 ring-sky-500 hover:bg-gray-600"
+      className="flex w-full cursor-default items-center justify-between rounded-md border-none bg-gray-800 p-2 py-3 ring-1 ring-sky-500 hover:bg-gray-600"
       onClick={handleTaskClick}
     >
       <div className="flex items-center justify-between gap-4 pl-2">
@@ -49,8 +57,9 @@ function ListTask({ task }) {
           htmlFor="complete"
           className={`${task.isComplete ? "text-orange-500" : "text-gray-400"} text-xs`}
           onClick={(e) => {
+            console.log(task);
             e.stopPropagation();
-            updateField("isComplete", !task.isComplete, dispatch, tasks, task);
+            updateIconsListTask(tasks, task, "isComplete", !task.isComplete, dispatch);
           }}
         />
 
@@ -74,7 +83,7 @@ function ListTask({ task }) {
         } pr-2 text-sm`}
         onClick={(e) => {
           e.stopPropagation();
-          updateField("isImportant", !task.isImportant, dispatch, tasks, task);
+          updateIconsListTask(tasks, task, "isImportant", !task.isImportant, dispatch);
         }}
       />
     </li>

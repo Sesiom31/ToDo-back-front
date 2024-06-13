@@ -95,7 +95,7 @@ path {
 }
 
 /* animación aside left */
-
+/* 
 .a-open-left {
   transform: translateX(0);
   opacity: 1;
@@ -116,7 +116,6 @@ path {
     visibility 0.2s ease-in-out;
 }
 
-/* anmacion aside right */
 
 .a-open-right {
   transform: translateX(0);
@@ -137,3 +136,5 @@ path {
     opacity 0.2s ease-in-out,
     visibility 0.2s ease-in-out;
 }
+
+ */

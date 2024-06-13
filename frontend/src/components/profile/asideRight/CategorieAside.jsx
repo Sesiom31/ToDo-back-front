@@ -1,13 +1,15 @@
+import PropTypes from "prop-types";
 import IconButton from "../../../ui/IconButton";
 import { useSelector, useDispatch } from "react-redux";
-import { getCurrentTask, getTasks } from "../../../store/taskSlice";
+import { getTasks } from "../../../store/taskSlice";
 import { faCircleCheck, faStar } from "@fortawesome/free-solid-svg-icons";
-import { updateField } from "../../../utils/updateFunc";
+import { updateIconsListTask } from "../../../utils/updateFunc";
 
-function CategorieAside() {
-  const currentTask = useSelector(getCurrentTask);
+function CategorieAside({ taskId }) {
   const tasks = useSelector(getTasks);
   const dispatch = useDispatch();
+
+  const currentTask = tasks.find((t) => t._id === taskId);
 
   return (
     <div className="flex h-16 items-center justify-around">
@@ -21,12 +23,12 @@ function CategorieAside() {
           } text-xs`}
           onClick={(e) => {
             e.stopPropagation();
-            updateField(
+            updateIconsListTask(
+              tasks,
+              currentTask,
               "isComplete",
               !currentTask.isComplete,
               dispatch,
-              tasks,
-              currentTask,
             );
           }}
         />
@@ -42,13 +44,12 @@ function CategorieAside() {
           } text-sm`}
           onClick={(e) => {
             e.stopPropagation();
-
-            updateField(
+            updateIconsListTask(
+              tasks,
+              currentTask,
               "isImportant",
               !currentTask.isImportant,
               dispatch,
-              tasks,
-              currentTask,
             );
           }}
         />
@@ -56,5 +57,9 @@ function CategorieAside() {
     </div>
   );
 }
+
+CategorieAside.propTypes = {
+  taskId: PropTypes.string.isRequired,
+};
 
 export default CategorieAside;

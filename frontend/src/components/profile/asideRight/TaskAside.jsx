@@ -5,6 +5,7 @@ import { getCurrentTask } from "../../../store/taskSlice";
 
 function TaskAside({ updateIsOpen, register, errors }) {
   const currentTask = useSelector(getCurrentTask);
+  
   return (
     <div className="h-auto min-h-[3.5rem]">
       <span className="text-xs text-gray-400">Tarea:</span>

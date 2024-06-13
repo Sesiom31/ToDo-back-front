@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { getCurrentTask, getTasks } from "../../../store/taskSlice";
+import { getCurrentTask, getTasks, setCurrentTask } from "../../../store/taskSlice";
 import { capitalizeCategory } from "../../../utils/configString";
 import { updateTask } from "../../../utils/updateFunc";
 import ButtonAdd from "../../../ui/ButtonAdd";
@@ -14,20 +14,21 @@ import DateAside from "./DateAside";
 import CategorieAside from "./CategorieAside";
 import PasosUpdateAside from "./PasosUpdateAside";
 import PasosAside from "./PasosAside";
-import {
-  getAsideRightIsVisible,
-  setAsideRightIsVisible,
-} from "../../../store/visibleSlice";
+import { getClassRight } from "../../../store/visibleSlice";
 
 function AsideRight() {
+  console.log("ASIDE RIGHT");
   const [updateIsOpen, setUpdateIsOpen] = useState(false);
   const [updateDateIsOpen, setUpdateDateIsOpen] = useState(false);
-  const [isLg, setIsLg] = useState(false);
+
   const currentTask = useSelector(getCurrentTask);
+  const classRight = useSelector(getClassRight);
   const tasks = useSelector(getTasks);
-  const asideRightIsVisible = useSelector(getAsideRightIsVisible);
+
   const dispatch = useDispatch();
   const asideRef = useRef();
+
+  const taskDisplayCanceled = tasks.find((t) => t._id === currentTask._id);
 
   const {
     register,
@@ -49,11 +50,12 @@ function AsideRight() {
 
   const onSubmit = async (data) => {
     updateTask(tasks, currentTask, data, dispatch);
-    setUpdateIsOpen(false);
     setUpdateDateIsOpen(false);
+    setUpdateIsOpen(false);
   };
 
   useEffect(() => {
+    console.log("Effecto del reset");
     reset({
       task: capitalizeCategory(currentTask.task),
       description: capitalizeCategory(currentTask.description),
@@ -64,40 +66,9 @@ function AsideRight() {
     });
   }, [currentTask, reset]);
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (asideRef.current && !asideRef.current.contains(e.target)) {
-        reset();
-        setUpdateIsOpen(false);
-        setUpdateDateIsOpen(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [reset]);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width : 1024px)");
-
-    const handleMediaQuery = (e) => {
-      setIsLg(e.matches);
-    };
-    mediaQuery.addEventListener("change", handleMediaQuery);
-    setIsLg(mediaQuery.matches);
-
-    if (isLg) dispatch(setAsideRightIsVisible(true));
-    else dispatch(setAsideRightIsVisible(false));
-  }, [isLg, dispatch]);
-
   return (
     <aside
-      className={`${
-        asideRightIsVisible ? "a-open-right" : "a-right"
-      } absolute right-0 top-0 z-[200] flex h-full w-[55%] flex-col bg-gray-800 sm:px-4 md:w-[32%] lg:relative lg:col-span-4 lg:w-full`}
+      className={`lg:a-open-right ${classRight} absolute right-0 top-0 z-[200] flex h-full w-[55%] flex-col bg-gray-800  md:w-[32%] lg:relative lg:col-span-4 lg:w-full`}
       ref={asideRef}
       onClick={() => {
         setUpdateDateIsOpen(false);
@@ -106,14 +77,14 @@ function AsideRight() {
       {Object.keys(currentTask).length === 0 ? (
         <h3 className="px-2 pt-8 text-gray-400">No hay una tarea seleccionada</h3>
       ) : (
-        <form onSubmit={handleSubmit(onSubmit)} className="h-full pt-14">
+        <form onSubmit={handleSubmit(onSubmit)} className="h-full pt-14 ">
           <HeaderAside />
           <div
-            className={`max-h-[calc(100%-8.5rem)] w-full overflow-y-auto ${
+            className={`px-2   max-h-[calc(100%-8.5rem)] w-full overflow-y-auto ${
               updateIsOpen ? "min-h-[calc(100%-8.5rem)]" : "min-h-[calc(100%-5rem)]"
             } `}
           >
-            <div className="flex w-full flex-col gap-1 border-none p-2 sm:gap-6">
+            <div className="flex w-full flex-col gap-1 border-none p-2 sm:gap-3">
               <TaskAside
                 updateIsOpen={updateIsOpen}
                 register={register}
@@ -132,7 +103,7 @@ function AsideRight() {
                 setUpdateDateIsOpen={setUpdateDateIsOpen}
                 control={control}
               />
-              <CategorieAside />
+              <CategorieAside taskId={currentTask._id} />
             </div>
 
             {currentTask.pasos.length > 0 || updateIsOpen ? (
@@ -168,13 +139,27 @@ function AsideRight() {
           )}
 
           {updateIsOpen && (
-            <ButtonAdd
-              name={"Guardar"}
-              classNameButton={
-                "rounded-md bg-green-500 text-gray-800 p-1 hover:bg-green-400 outline-none absolute bottom-2 right-2 left-2"
-              }
-              type="submit"
-            />
+            <div className="absolute bottom-2 left-2 right-2 flex justify-between gap-4">
+              <ButtonAdd
+                name={"Cancelar"}
+                classNameButton={
+                  "rounded-md bg-red-500 text-gray-800 p-1 hover:bg-red-400 outline-none w-full "
+                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUpdateDateIsOpen(false);
+                  setUpdateIsOpen(false);
+                  dispatch(setCurrentTask(taskDisplayCanceled));
+                }}
+              />
+              <ButtonAdd
+                name={"Guardar"}
+                classNameButton={
+                  "rounded-md bg-green-500 text-gray-800 p-1 hover:bg-green-400 outline-none w-full "
+                }
+                type="submit"
+              />
+            </div>
           )}
 
           {!updateIsOpen && (

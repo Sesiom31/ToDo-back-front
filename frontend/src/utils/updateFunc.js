@@ -6,7 +6,7 @@ import {
 } from "../api/task.request";
 
 /* funcion para los iconos complete e important */
-export const updateField = async (field, newValue, dispatch, tasks, currentTask) => {
+/* export const updateField = async (field, newValue, dispatch, tasks, currentTask) => {
   const originalTasks = [...tasks];
   let newCurrentTask = { ...currentTask };
 
@@ -65,16 +65,19 @@ export const updateField = async (field, newValue, dispatch, tasks, currentTask)
     dispatch(setTasks(originalTasks));
     dispatch(setCurrentTask(currentTask));
   }
-};
+}; */
 
+
+// guardar la tarea despues de editarla
 export const updateTask = async (tasks, currentTask, data, dispatch) => {
   const originalTasks = [...tasks];
   const originalCurrentTask = { ...currentTask };
-
+  console.log(data)
   const newCurrentTask = {
     ...currentTask,
     ...data,
     dateEnd: data.dateEnd.toISOString(),
+    pasos : [...data.pasos.filter(p =>p.description !== '')]
   };
 
   const newTasks = tasks.map((t) => {
@@ -93,6 +96,7 @@ export const updateTask = async (tasks, currentTask, data, dispatch) => {
   }
 };
 
+// elimina la tarea
 export const deleteTask = async (tasks, currentTask, dispatch) => {
   const originalTasks = [...tasks];
   const originalCurrentTask = { ...currentTask };
@@ -109,3 +113,59 @@ export const deleteTask = async (tasks, currentTask, dispatch) => {
     console.log(err);
   }
 };
+
+
+// crea nuevas propiedades cuando se usa los iconos completo e importante
+const newProperties = (task, field, newValue) => {
+  return {
+    [field]: newValue,
+    belongsCategories: newValue
+      ? [
+          ...task.belongsCategories,
+          field === "isImportant" ? "importantes" : "completadas",
+        ]
+      : task.belongsCategories.filter(
+          (c) => c !== (field === "isImportant" ? "importantes" : "completadas"),
+        ),
+  };
+};
+
+// función en uso
+export const updateIconsListTask = async (
+  tasks,
+  task,
+  field,
+  newValue,
+  dispatch,
+) => {
+  const originalTasks = [...tasks];
+  const id = task._id;
+
+  const newTasks = tasks.map((t) => {
+    return t._id === id ? { ...task, ...newProperties(task, field, newValue) } : t;
+  });
+
+  try {
+   /*  if (currentTask._id === task._id) {
+      console.log('LOS IDS SON IGUALES')
+      dispatch(
+        setCurrentTask({ ...currentTask, ...newProperties(task, field, newValue) }),
+      );
+    } */
+    dispatch(setTasks(newTasks));
+    await updateFieldTaskRequest({ taskId: task._id, field, newValue });
+  } catch (err) {
+    dispatch(setTasks(originalTasks));
+    console.log(err);
+  }
+};
+
+/* export const updateDateEnd = async (taskId, tasks, newValue, dispatch) => {
+  const currentTask = tasks.find((t) => t._id === taskId);
+
+  const newTasks = tasks.map((t) => {
+    return t._id === taskId ? { ...currentTask, dateEnd: newValue } : t;
+  });
+
+  dispatch(setTasks(newTasks));
+}; */

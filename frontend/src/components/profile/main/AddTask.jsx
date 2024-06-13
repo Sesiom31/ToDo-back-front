@@ -11,7 +11,7 @@ import InfoCalendar from "../../../ui/InfoCalendar";
 import PasosField from "./PasosField";
 import TaskField from "../../../ui/TaskField";
 import DescriptionField from "../../../ui/DescriptionField";
-import { createTaskRequest } from "../../../api/task.request";
+import { createTaskRequest} from "../../../api/task.request";
 import { useSelector, useDispatch } from "react-redux";
 import { getUser } from "../../../store/authSlice";
 import { getCurrentCategory, getTasks, setTasks } from "../../../store/taskSlice";
@@ -19,8 +19,9 @@ import { dateFormat } from "../../../utils/configString";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import ButtonAdd from "../../../ui/ButtonAdd";
 import { useSnackbar } from "notistack";
+import { v4 as uuidv4 } from "uuid";
 
-function AddTask({ onAddTask, setIsLoad }) {
+function AddTask({ setIsOpenAddTask, setIsLoad }) {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [taskIsFocus, setTaskIsFocus] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -69,10 +70,11 @@ function AddTask({ onAddTask, setIsLoad }) {
       isComplete: false,
       user: userId,
       dateEnd: data.dateEnd.toISOString(),
+      id_f: uuidv4(),
     };
 
     try {
-      onAddTask(false);
+      setIsOpenAddTask(false);
       dispatch(setTasks([...tasks, newTask]));
       enqueueSnackbar("Tarea creada exitosamente", {
         variant: "success",
@@ -101,7 +103,7 @@ function AddTask({ onAddTask, setIsLoad }) {
         onSubmit={handleSubmit(onSubmit)}
       >
         <ButtonClose
-          onClick={() => onAddTask(false)}
+          onClick={() => setIsOpenAddTask(false)}
           icon={faXmark}
           classNameButton={"absolute z-[90] top-4 right-4 text-[1.5rem]"}
           classNameIcon={
@@ -177,8 +179,8 @@ function AddTask({ onAddTask, setIsLoad }) {
 }
 
 AddTask.propTypes = {
-  onAddTask: PropTypes.func.isRequired,
-  setIsLoad: PropTypes.func,
+  setIsOpenAddTask: PropTypes.func.isRequired,
+  setIsLoad: PropTypes.func.isRequired,
 };
 
 export default AddTask;
